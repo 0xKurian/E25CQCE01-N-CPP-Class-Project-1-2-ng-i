@@ -35,4 +35,10 @@ Việc đánh giá hiệu năng của Quick Sort được thể hiện qua hai k
 
 Trong giai đoạn này, nhóm chuyển đổi kiến thức lý thuyết thành mã nguồn thực tế bằng ngôn ngữ C++ theo hướng đối tượng (OOP), cho phép người dùng tùy chọn cách thức phân hoạch.
 
-## Danh sách các công việc đã hoàn thành 
+## Danh sách các công việc đã hoàn thành
+
+
+
+## Mã nguồn triển khai
+<details>
+<summary><b>QuickSortDemo.cpp</b></summary>
