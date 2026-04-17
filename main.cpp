@@ -2,66 +2,98 @@
 
 using namespace std;
 
-class QuickSortDemo{
-    private:
+class QuickSortDemo {
+private:
     vector<int> arr;
 
     // In mảng VD: [ 10, 20, 30 ]
-    void printArray(){
+    void printArray() {
         cout << "[ ";
-        for (int i=0; i<arr.size(); i++){
-            cout << arr[i] << (i<arr.size()-1 ? ", " : "");
+        for (int i = 0; i < arr.size(); i++) {
+            cout << arr[i] << (i < arr.size() - 1 ? ", " : "");
         }
         cout << " ]" << endl;
     }
-};
 
-//  PARTITION
-// l:left
-// r: right
-namespace Lomuto_Partition {
-    int Partition (int a[], int l, int r){
-        int pivot=a[r];
-        int i=l-1;
-        for (int j=l; j<r; j++){
-            if(a[i]<=pivot){
+    //  LOMUTO PARTITION
+    // l:left
+    // r: right
+    int Partition_Lomuto(int l, int r) {
+        int pivot = arr[r];
+        int i = l - 1;
+        
+        cout << "  -> [Lomuto] Pivot chosen: " << pivot << " (at index " << r << ")" << endl;
+
+        for (int j = l; j < r; j++) {
+            if (arr[j] <= pivot) {
                 ++i;
-                swap(a[i], a[j]);
+                swap(arr[i], arr[j]);
+                
+                // In ra bước swap
+                if (i != j) {
+                    cout << "    + Swapped " << arr[i] << " and " << arr[j] << ": ";
+                    printArray();
+                }
             }
         }
-        ++i;//đưa pivot về giữa
-    }
-    void QuickSort(int a[], int l, int r)
-    {
-        if (l>r) return;
-        int p=Partition(a, l, r);
-        QuickSort(a, l, p-1);
-        QuickSort(a, p+1, r);
-    }
-}
+        ++i; // đưa pivot về giữa
+        swap(arr[i], arr[r]);
+        
+        cout << "  -> Array after Lomuto partitioning: ";
+        printArray();
 
-// HOARE PARTITION
-// l:left
-// r: right
-namespace Hoare_partition{
-    int partition(int a[], int l, int r){
-        int pivot=a[l];
-        int i=l-1, j=r+1;
-        while(1){
-            do{
+        return i;
+    }
+
+    void QuickSort_Lomuto(int l, int r) {
+        if (l >= r) return;
+        
+        cout << "\n[Step] Sorting sub-array from " << l << " to " << r << ":" << endl;
+        int p = Partition_Lomuto(l, r);
+        QuickSort_Lomuto(l, p - 1);
+        QuickSort_Lomuto(p + 1, r);
+    }
+
+
+    // HOARE PARTITION
+    // l:left
+    // r: right
+    int partition_Hoare(int l, int r) {
+        int pivot = arr[l];
+        int i = l - 1, j = r + 1;
+        
+        cout << "  -> [Hoare] Pivot chosen: " << pivot << " (at index " << l << ")" << endl;
+
+        while (1) {
+            do {
                 ++i;
-            } while (a[i]<pivot);
-            do{
+            } while (arr[i] < pivot);
+            
+            do {
                 --j;
-            } while (a[j]>pivot);
-            if (i<j) swap(a[i], a[j]);
-            else return j;
+            } while (arr[j] > pivot);
+            
+            if (i < j) {
+                swap(arr[i], arr[j]);
+                cout << "    + Swapped " << arr[i] << " and " << arr[j] << ": ";
+                printArray();
+            } else {
+                cout << "  -> Array after Hoare partitioning: ";
+                printArray();
+                return j;
+            }
         }
     }
-    void QuickSort(int a[], int l, int r){
-        if (l>=r) return;
-        int p=partition(a, l, r);
-        QuickSort(a, l, p);
-        QuickSort(a, p+1, r);
+
+    void QuickSort_Hoare(int l, int r) {
+        if (l >= r) return;
+        
+        cout << "\n[Step] Sorting sub-array from " << l << " to " << r << ":" << endl;
+        int p = partition_Hoare(l, r);
+        QuickSort_Hoare(l, p);
+        QuickSort_Hoare(p + 1, r);
     }
-}
+
+    public:
+
+};
