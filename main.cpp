@@ -127,6 +127,7 @@ private:
             cin >> arr[i];
         }
     }
+    
     void inputData() {
         int inputSize;
         cout << "Enter the number of elements: ";
@@ -141,6 +142,36 @@ private:
         for (int i = 0; i < inputSize; i++) {
             cout << "Enter element [" << i << "]: ";
             cin >> arr[i];
+        }
+    }
+
+    void startSorting() {
+        if (arr.empty()) return; 
+        
+        int choice;
+        cout << "\n========================================\n";
+        cout << "   CHOOSE PARTITION METHOD FOR DEMO     \n";
+        cout << "========================================\n";
+        cout << "1. Lomuto Partition (Last element pivot)\n";
+        cout << "2. Hoare Partition (First element pivot)\n";
+        cout << "Enter your choice (1 or 2): ";
+        cin >> choice;
+
+        cout << "\n========================================\n";
+        cout << "   STARTING QUICK SORT (STEP-BY-STEP)   \n";
+        cout << "========================================\n";
+        cout << "Initial Array: ";
+        printArray();
+        
+        int r = arr.size() - 1; 
+
+        if (choice == 1) {
+            QuickSort_Lomuto(0, r);
+        } else if (choice == 2) {
+            QuickSort_Hoare(0, r);
+        } else {
+            cout << "Invalid choice! Defaulting to Hoare Partition...\n";
+            QuickSort_Hoare(0, r);
         }
     }
 };
