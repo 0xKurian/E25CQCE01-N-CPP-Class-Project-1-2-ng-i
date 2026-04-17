@@ -15,7 +15,7 @@ private:
         cout << " ]" << endl;
     }
 
-    //  LOMUTO PARTITION
+    // LOMUTO PARTITION
     // l:left
     // r: right
     int Partition_Lomuto(int l, int r) {
@@ -52,7 +52,6 @@ private:
         QuickSort_Lomuto(l, p - 1);
         QuickSort_Lomuto(p + 1, r);
     }
-
 
     // HOARE PARTITION
     // l:left
@@ -93,40 +92,7 @@ private:
         QuickSort_Hoare(p + 1, r);
     }
 
-    public:
-    void inputData() {
-        int inputSize;
-        cout << "Enter the number of elements: ";
-        cin >> inputSize;
-        
-        if (inputSize <= 0) {
-            cout << "Error: Size must be greater than 0!" << endl;
-            return;
-        }
-
-        arr.resize(inputSize); 
-        for (int i = 0; i < inputSize; i++) {
-            cout << "Enter element [" << i << "]: ";
-            cin >> arr[i];
-        }
-    }
-    void inputData() {
-        int inputSize;
-        cout << "Enter the number of elements: ";
-        cin >> inputSize;
-        
-        if (inputSize <= 0) {
-            cout << "Error: Size must be greater than 0!" << endl;
-            return;
-        }
-
-        arr.resize(inputSize); 
-        for (int i = 0; i < inputSize; i++) {
-            cout << "Enter element [" << i << "]: ";
-            cin >> arr[i];
-        }
-    }
-
+public:
     void inputData() {
         int inputSize;
         cout << "Enter the number of elements: ";
@@ -173,15 +139,16 @@ private:
             QuickSort_Hoare(0, r);
         }
     }
+
     void displayFinalResult() {
-            if (arr.empty()) return;
-            cout << "\n========================================\n";
-            cout << "             FINAL RESULT               \n";
-            cout << "========================================\n";
-            cout << "Sorted Array: ";
-            printArray();
-            cout << "========================================\n";
-        }
+        if (arr.empty()) return;
+        cout << "\n========================================\n";
+        cout << "             FINAL RESULT               \n";
+        cout << "========================================\n";
+        cout << "Sorted Array: ";
+        printArray();
+        cout << "========================================\n";
+    }
 };
 
 int main() {
