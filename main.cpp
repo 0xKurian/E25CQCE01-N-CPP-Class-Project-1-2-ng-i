@@ -29,7 +29,6 @@ private:
                 ++i;
                 swap(arr[i], arr[j]);
                 
-                // In ra bước swap
                 if (i != j) {
                     cout << "    + Swapped " << arr[i] << " and " << arr[j] << ": ";
                     printArray();
@@ -127,7 +126,7 @@ private:
             cin >> arr[i];
         }
     }
-    
+
     void inputData() {
         int inputSize;
         cout << "Enter the number of elements: ";
@@ -174,4 +173,23 @@ private:
             QuickSort_Hoare(0, r);
         }
     }
+    void displayFinalResult() {
+            if (arr.empty()) return;
+            cout << "\n========================================\n";
+            cout << "             FINAL RESULT               \n";
+            cout << "========================================\n";
+            cout << "Sorted Array: ";
+            printArray();
+            cout << "========================================\n";
+        }
 };
+
+int main() {
+    QuickSortDemo qSortProject;
+
+    qSortProject.inputData();
+    qSortProject.startSorting();
+    qSortProject.displayFinalResult();
+
+    return 0;
+}
