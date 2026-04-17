@@ -15,3 +15,25 @@ class QuickSortDemo{
         cout << " ]" << endl;
     }
 };
+
+// LOMUTO PARTITION
+// l:left
+// r: right
+int LomutoPartition (int a[], int l, int r){
+    int pivot=a[r];
+    int i=l-1;
+    for (int j=l; j<r; j++){
+        if(a[i]<=pivot){
+            ++i;
+            swap(a[i], a[j]);
+        }
+    }
+    ++i;//đưa pivot về giữa
+}
+void Lomuto_QuickSort(int a[], int l, int r)
+{
+    if (l>r) return;
+    int p=LomutoPartition(a, l, r);
+    Lomuto_QuickSort(a, l, p-1);
+    Lomuto_QuickSort(a, p+1, r);
+}
