@@ -16,24 +16,52 @@ class QuickSortDemo{
     }
 };
 
-// LOMUTO PARTITION
+//  PARTITION
 // l:left
 // r: right
-int LomutoPartition (int a[], int l, int r){
-    int pivot=a[r];
-    int i=l-1;
-    for (int j=l; j<r; j++){
-        if(a[i]<=pivot){
-            ++i;
-            swap(a[i], a[j]);
+namespace Lomuto_Partition {
+    int Partition (int a[], int l, int r){
+        int pivot=a[r];
+        int i=l-1;
+        for (int j=l; j<r; j++){
+            if(a[i]<=pivot){
+                ++i;
+                swap(a[i], a[j]);
+            }
+        }
+        ++i;//đưa pivot về giữa
+    }
+    void QuickSort(int a[], int l, int r)
+    {
+        if (l>r) return;
+        int p=Partition(a, l, r);
+        QuickSort(a, l, p-1);
+        QuickSort(a, p+1, r);
+    }
+}
+
+// HOARE PARTITION
+// l:left
+// r: right
+namespace Hoare_partition{
+    int partition(int a[], int l, int r){
+        int pivot=a[l];
+        int i=l-1, j=r+1;
+        while(1){
+            do{
+                ++i;
+            } while (a[i]<pivot);
+            do{
+                --j;
+            } while (a[j]>pivot);
+            if (i<j) swap(a[i], a[j]);
+            else return j;
         }
     }
-    ++i;//đưa pivot về giữa
-}
-void Lomuto_QuickSort(int a[], int l, int r)
-{
-    if (l>r) return;
-    int p=LomutoPartition(a, l, r);
-    Lomuto_QuickSort(a, l, p-1);
-    Lomuto_QuickSort(a, p+1, r);
+    void QuickSort(int a[], int l, int r){
+        if (l>=r) return;
+        int p=partition(a, l, r);
+        QuickSort(a, l, p);
+        QuickSort(a, p+1, r);
+    }
 }
