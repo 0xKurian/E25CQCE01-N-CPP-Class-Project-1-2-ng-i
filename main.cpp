@@ -95,5 +95,52 @@ private:
     }
 
     public:
+    void inputData() {
+        int inputSize;
+        cout << "Enter the number of elements: ";
+        cin >> inputSize;
+        
+        if (inputSize <= 0) {
+            cout << "Error: Size must be greater than 0!" << endl;
+            return;
+        }
 
+        arr.resize(inputSize); 
+        for (int i = 0; i < inputSize; i++) {
+            cout << "Enter element [" << i << "]: ";
+            cin >> arr[i];
+        }
+    }
+    void inputData() {
+        int inputSize;
+        cout << "Enter the number of elements: ";
+        cin >> inputSize;
+        
+        if (inputSize <= 0) {
+            cout << "Error: Size must be greater than 0!" << endl;
+            return;
+        }
+
+        arr.resize(inputSize); 
+        for (int i = 0; i < inputSize; i++) {
+            cout << "Enter element [" << i << "]: ";
+            cin >> arr[i];
+        }
+    }
+    void inputData() {
+        int inputSize;
+        cout << "Enter the number of elements: ";
+        cin >> inputSize;
+        
+        if (inputSize <= 0) {
+            cout << "Error: Size must be greater than 0!" << endl;
+            return;
+        }
+
+        arr.resize(inputSize); 
+        for (int i = 0; i < inputSize; i++) {
+            cout << "Enter element [" << i << "]: ";
+            cin >> arr[i];
+        }
+    }
 };
