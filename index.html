@@ -103,6 +103,138 @@
         .col {
             flex: 1;
         }
+        
+        /* QuickSort Visualizer styles */
+        .qs-wrapper {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 12px 8px 24px;
+        }
+        .qs-left {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+            min-width: 420px;
+        }
+        #qs-bars {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 12px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
+        }
+        #qs-array-container {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0 12px;
+            position: relative;
+            min-height: 80px;
+        }
+        .qs-bar {
+            width: 60px;
+            height: 60px;
+            background: #f0f4ff;
+            border: 2px solid #2563eb;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: background 250ms ease, border-color 250ms ease, transform 200ms ease;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1f2937;
+        }
+        .qs-bar .qs-label {
+            display: none;
+        }
+        .qs-bar .qs-val {
+            position: relative;
+            z-index: 2;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .qs-bar .qs-pointer {
+            position: absolute;
+            top: -32px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: none;
+            white-space: nowrap;
+            text-align: center;
+            min-width: 40px;
+        }
+        .qs-bar.pivot .qs-pointer { display: block; color: #059669; }
+        .qs-bar.pointer-i .qs-pointer { display: block; color: #dc2626; }
+        .qs-bar.pointer-j .qs-pointer { display: block; color: #0891b2; }
+        .qs-controls {
+            width: 340px;
+            min-width: 260px;
+            background: #ffffff;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .qs-controls select, .qs-controls button, .qs-controls input[type=range] {
+            width: 100%;
+            margin-top: 8px;
+        }
+        /* Improve slider appearance */
+        .qs-controls input[type=range] {
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .qs-controls input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #2563eb;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+        }
+        .qs-controls input[type=range]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #2563eb;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+        }
+        .qs-controls .row { display:flex; gap:8px; }
+        .qs-controls button { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; background:var(--accent-blue); color:#fff; font-weight:600; }
+        .qs-controls .muted { background:transparent; color:#374151; border:1px solid rgba(0,0,0,0.06); }
+        .qs-status { margin-top:12px; font-size:0.95rem; color:#374151; min-height:38px; }
+        .qs-legend { margin-top: 10px; font-size: 0.9rem; color:#374151; }
+
+        /* Highlight states for grid cells */
+        .qs-bar.compare { border: 3px solid #f59e0b; background: #fffbeb; }
+        .qs-bar.swap { border: 3px solid #ef4444; background: #fee2e2; transform: scale(1.05); }
+        .qs-bar.pivot { border: 3px solid #059669; background: #dcfce7; box-shadow: 0 0 12px rgba(5,150,105,0.2); }
+        .qs-bar.placed { opacity: 0.7; border: 2px solid #9ca3af; background: #f3f4f6; }
+
+        /* Speed preset buttons inside controls - HIDDEN */
+        .qs-controls .speed-presets { display:none; gap:8px; margin-top:10px; flex-wrap:wrap; }
+        .qs-controls .speed-presets button { width:calc(25% - 6px); min-width:56px; padding:10px 6px; border-radius:10px; background:#eef2ff; color:var(--accent-purple); border:1px solid rgba(124,58,237,0.12); cursor:pointer; font-weight:700; }
+        .qs-controls .speed-presets button.active { background:var(--accent-purple); color:#fff; border-color:rgba(124,58,237,0.5); box-shadow:0 6px 18px rgba(124,58,237,0.12); }
     </style>
 </head>
 <body>
@@ -424,6 +556,40 @@ public:
                 </code></pre>
             </section>
 
+            <!-- Interactive Visualizer Slide -->
+            <section data-background-color="#ffffff" id="qs-slide" style="overflow-y: auto; max-height: 100vh; display: flex; flex-direction: column;">
+                <div class="section-tag" style="background:#eff6ff;color:var(--accent-blue)">Minh hoạ</div>
+                <div class="qs-wrapper">
+                    <div class="qs-left">
+                        <div id="qs-bars">
+                            <div id="qs-array-container"></div>
+                        </div>
+                        <div class="qs-legend">Chú thích: <span style="color:#f59e0b">So sánh (vàng)</span>, <span style="color:#ef4444">Hoán đổi (đỏ)</span>, <span style="color:#059669">Pivot (xanh)</span></div>
+                    </div>
+                    <div class="qs-controls">
+                        <label>Partition</label>
+                        <select id="qs-algo"><option value="lomuto">Lomuto</option><option value="hoare">Hoare</option></select>
+                        <label>Size<span id="qs-size-label">12</span></label>
+                        <input id="qs-size" type="range" min="5" max="30" value="12" />
+                        <div class="row" style="margin-top:8px;">
+                            <button id="qs-generate">Tạo mảng</button>
+                            <button id="qs-play">Play</button>
+                            <button id="qs-step" class="muted">Step</button>
+                            <button id="qs-reset" class="muted">Reset</button>
+                        </div>
+                        <label style="margin-top:8px;">Speed(ms) <span id="qs-speed-label">300</span></label>
+                        <input id="qs-speed" type="range" min="50" max="5000" step="50" value="300" />
+                        <div class="speed-presets">
+                            <button id="qs-speed-half" class="muted" title="Slow (0.5x)">0.5x</button>
+                            <button id="qs-speed-1" class="muted active" title="Normal (1x)">1x</button>
+                            <button id="qs-speed-2" class="muted" title="Fast (2x)">2x</button>
+                            <button id="qs-speed-default" class="muted" title="Reset to default">Default</button>
+                        </div>
+                        <div id="qs-status" class="qs-status">Nhấn <strong>Tạo mảng</strong> để bắt đầu.</div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Slide 31: Main Function -->
             <section>
                 <h3>Hàm Main</h3>
@@ -465,5 +631,356 @@ int main() {
             plugins: [ RevealHighlight ]
         });
     </script>
+        <script>
+        (function(){
+            let initialized = false;
+            const sleep = (ms)=> new Promise(r=>setTimeout(r,ms));
+            function initQS(){
+                if(initialized) return;
+                initialized=true;
+                const barsContainer = document.getElementById('qs-bars');
+                const statusEl = document.getElementById('qs-status');
+                const playBtn = document.getElementById('qs-play');
+                const stepBtn = document.getElementById('qs-step');
+                const resetBtn = document.getElementById('qs-reset');
+                const generateBtn = document.getElementById('qs-generate');
+                const algoSelect = document.getElementById('qs-algo');
+                const sizeRange = document.getElementById('qs-size');
+                const sizeLabel = document.getElementById('qs-size-label');
+                const speedRange = document.getElementById('qs-speed');
+                const speedLabel = document.getElementById('qs-speed-label');
+
+                let originalArr = [];
+                let displayArr = [];
+                let actions = [];
+                let currentAction = 0;
+                let isPlaying = false;
+                let speed = Number(speedRange.value);
+                let pointers = {i: -1, j: -1, pivot: -1}; // Track pointer positions for array visualization
+                const DEFAULT_SPEED = Number(speedRange.value);
+                const MIN_SPEED = Number(speedRange.min) || 50;
+                const MAX_SPEED = Number(speedRange.max) || 1000;
+                // Speed preset buttons (DOM elements present in the controls)
+                const btnSpeedHalf = document.getElementById('qs-speed-half');
+                const btnSpeed1 = document.getElementById('qs-speed-1');
+                const btnSpeed2 = document.getElementById('qs-speed-2');
+                const btnSpeedDefault = document.getElementById('qs-speed-default');
+                
+                // Helper function to update pointer labels on cells
+                function updatePointerLabels(){
+                    document.querySelectorAll('#qs-array-container .qs-bar').forEach((cell, idx)=>{
+                        const pointerSpan = cell.querySelector('.qs-pointer');
+                        let label = '';
+                        if(idx === pointers.i) label = 'i';
+                        else if(idx === pointers.j) label = 'j';
+                        else if(idx === pointers.pivot) label = 'Pivot';
+                        if(pointerSpan) pointerSpan.textContent = label;
+                        if(label === 'Pivot') cell.classList.add('pivot');
+                        else cell.classList.remove('pivot');
+                    });
+                }
+
+                function randArray(n){
+                    const a=[];
+                    for(let i=0;i<n;i++) a.push(Math.floor(Math.random()*90)+10);
+                    return a;
+                }
+                function createBars(){
+                    const container = document.getElementById('qs-array-container');
+                    if(!container) return; // Safety check
+                    container.innerHTML = '';
+                    for(let i=0;i<displayArr.length;i++){
+                        const cell = document.createElement('div');
+                        cell.className='qs-bar';
+                        cell.dataset.index = i;
+                        const pointer = document.createElement('span');
+                        pointer.className='qs-pointer';
+                        pointer.textContent = ''; // Updated dynamically
+                        cell.appendChild(pointer);
+                        const valSpan = document.createElement('span');
+                        valSpan.className='qs-val';
+                        valSpan.textContent = displayArr[i];
+                        cell.appendChild(valSpan);
+                        container.appendChild(cell);
+                    }
+                }
+                function updateBars(){
+                    document.querySelectorAll('#qs-array-container .qs-bar').forEach((cell, idx)=>{
+                        const val = displayArr[idx];
+                        const valSpan = cell.querySelector('.qs-val');
+                        if(valSpan) valSpan.textContent = val;
+                    });
+                }
+                function clearHighlights(){
+                    document.querySelectorAll('#qs-array-container .qs-bar').forEach(b=>{
+                        b.classList.remove('compare','swap','pivot','placed','pointer-i','pointer-j');
+                        b.querySelector('.qs-pointer').textContent = '';
+                    });
+                    pointers = {i: -1, j: -1, pivot: -1};
+                }
+                function status(txt){ statusEl.innerHTML = txt; }
+
+                // Action generators (operate on clone)
+                function generateActions(algo){
+                    actions = [];
+                    const a = originalArr.slice();
+                    if(a.length===0) return;
+                    if(algo==='lomuto') quickSortLomutoGen(a, 0, a.length-1);
+                    else quickSortHoareGen(a, 0, a.length-1);
+                    currentAction = 0;
+                }
+
+                function quickSortLomutoGen(a,l,r){
+                    if(l>=r) return;
+                    actions.push({type:'recurse', range:[l,r]});
+                    const p = partitionLomutoGen(a,l,r);
+                    quickSortLomutoGen(a,l,p-1);
+                    quickSortLomutoGen(a,p+1,r);
+                }
+                function partitionLomutoGen(a,l,r){
+                    const pivot = a[r];
+                    actions.push({type:'pivot', index:r, pivot});
+                    let i = l - 1;
+                    for(let j=l;j<r;j++){
+                        actions.push({type:'compare', indices:[j,r]});
+                        if(a[j] <= pivot){
+                            ++i;
+                            if(i !== j){
+                                actions.push({type:'swap', indices:[i,j]});
+                                const tmp = a[i]; a[i]=a[j]; a[j]=tmp;
+                                actions.push({type:'snapshot', arr: a.slice()});
+                            } else {
+                                actions.push({type:'nop'});
+                            }
+                        }
+                    }
+                    ++i;
+                    actions.push({type:'swap', indices:[i,r]});
+                    const tmp = a[i]; a[i]=a[r]; a[r]=tmp;
+                    actions.push({type:'pivot-place', index:i});
+                    actions.push({type:'snapshot', arr: a.slice()});
+                    return i;
+                }
+
+                function quickSortHoareGen(a,l,r){
+                    if(l>=r) return;
+                    actions.push({type:'recurse', range:[l,r]});
+                    const p = partitionHoareGen(a,l,r);
+                    quickSortHoareGen(a,l,p);
+                    quickSortHoareGen(a,p+1,r);
+                }
+                function partitionHoareGen(a,l,r){
+                    const pivot = a[l];
+                    actions.push({type:'pivot', index:l, pivot});
+                    let i = l - 1, j = r + 1;
+                    while(true){
+                        do { ++i; actions.push({type:'compare', indices:[i,l]}); } while(a[i] < pivot);
+                        do { --j; actions.push({type:'compare', indices:[j,l]}); } while(a[j] > pivot);
+                        if(i < j){
+                            actions.push({type:'swap', indices:[i,j]});
+                            const tmp = a[i]; a[i]=a[j]; a[j]=tmp;
+                            actions.push({type:'snapshot', arr: a.slice()});
+                        } else {
+                            actions.push({type:'return', index:j});
+                            return j;
+                        }
+                    }
+                }
+
+                async function processAction(action){
+                    if(!action) return;
+                    switch(action.type){
+                        case 'compare': {
+                            const [i,j] = action.indices;
+                            const bi = document.querySelector(`#qs-array-container .qs-bar[data-index="${i}"]`);
+                            const bj = document.querySelector(`#qs-array-container .qs-bar[data-index="${j}"]`);
+                            pointers.i = i; pointers.j = j;
+                            updatePointerLabels();
+                            if(bi) bi.classList.add('compare');
+                            if(bj) bj.classList.add('compare');
+                            status(`So sánh chỉ số ${i} và ${j}`);
+                            await sleep(Math.max(60, speed/3));
+                            if(bi) bi.classList.remove('compare');
+                            if(bj) bj.classList.remove('compare');
+                            break;
+                        }
+                        case 'swap': {
+                            const [i,j] = action.indices;
+                            const bi = document.querySelector(`#qs-array-container .qs-bar[data-index="${i}"]`);
+                            const bj = document.querySelector(`#qs-array-container .qs-bar[data-index="${j}"]`);
+                            if(bi) bi.classList.add('swap');
+                            if(bj) bj.classList.add('swap');
+                            status(`Hoán đổi chỉ số ${i} và ${j}`);
+                            const tmp = displayArr[i]; displayArr[i]=displayArr[j]; displayArr[j]=tmp;
+                            updateBars();
+                            pointers.i = i; pointers.j = j;
+                            updatePointerLabels();
+                            await sleep(Math.max(80, speed));
+                            if(bi) bi.classList.remove('swap');
+                            if(bj) bj.classList.remove('swap');
+                            break;
+                        }
+                        case 'pivot': {
+                            const idx = action.index;
+                            const b = document.querySelector(`#qs-array-container .qs-bar[data-index="${idx}"]`);
+                            pointers.pivot = idx;
+                            updatePointerLabels();
+                            if(b) b.classList.add('pivot');
+                            status(`Chọn pivot tại chỉ số ${idx} (giá trị ${action.pivot})`);
+                            await sleep(Math.max(100, speed/2));
+                            break;
+                        }
+                        case 'pivot-place': {
+                            const idx = action.index;
+                            const b = document.querySelector(`#qs-array-container .qs-bar[data-index="${idx}"]`);
+                            if(b){ b.classList.remove('pivot'); b.classList.add('placed'); }
+                            status(`Pivot đặt vào vị trí ${idx}`);
+                            await sleep(Math.max(120, speed/2));
+                            break;
+                        }
+                        case 'snapshot': {
+                            displayArr = action.arr.slice();
+                            updateBars();
+                            await sleep(Math.max(80, speed/2));
+                            break;
+                        }
+                        case 'recurse': {
+                            const [l,r] = action.range;
+                            status(`Đệ quy trên đoạn [${l}, ${r}]`);
+                            await sleep(Math.max(80, speed/2));
+                            break;
+                        }
+                        case 'return': {
+                            const idx = action.index;
+                            status(`Trả về ranh giới ${idx}`);
+                            await sleep(Math.max(60, speed/3));
+                            break;
+                        }
+                        case 'nop': {
+                            await sleep(20);
+                            break;
+                        }
+                    }
+                }
+
+                async function runAll(){
+                    if(actions.length === 0) generateActions(algoSelect.value);
+                    isPlaying = true;
+                    playBtn.textContent = 'Pause';
+                    while(isPlaying && currentAction < actions.length){
+                        await processAction(actions[currentAction++]);
+                    }
+                    isPlaying = false;
+                    playBtn.textContent = 'Play';
+                    if(currentAction >= actions.length) status('Hoàn tất minh họa'); 
+                }
+
+                // Event wiring
+                generateBtn.addEventListener('click', ()=>{
+                    const n = Number(sizeRange.value);
+                    sizeLabel.textContent = n;
+                    originalArr = randArray(n);
+                    displayArr = originalArr.slice();
+                    actions = [];
+                    currentAction = 0;
+                    createBars();
+                    status('Mảng mới đã tạo');
+                });
+
+                playBtn.addEventListener('click', ()=>{
+                    speed = Number(speedRange.value);
+                    speedLabel.textContent = speed;
+                    if(isPlaying){
+                        isPlaying = false;
+                        playBtn.textContent = 'Play';
+                        status('Tạm dừng');
+                    } else {
+                        if(actions.length === 0) generateActions(algoSelect.value);
+                        runAll();
+                    }
+                });
+
+                stepBtn.addEventListener('click', async ()=>{
+                    if(actions.length === 0) generateActions(algoSelect.value);
+                    if(currentAction >= actions.length){ status('Hoàn tất'); return; }
+                    await processAction(actions[currentAction++]);
+                });
+
+                resetBtn.addEventListener('click', ()=>{
+                    isPlaying = false;
+                    currentAction = 0;
+                    actions = [];
+                    displayArr = originalArr.slice();
+                    createBars();
+                    status('Đã reset về mảng gốc');
+                    playBtn.textContent = 'Play';
+                });
+
+                sizeRange.addEventListener('input', (e)=>{
+                    sizeLabel.textContent = e.target.value;
+                });
+
+                speedRange.addEventListener('input', (e)=>{
+                    const val = Number(e.target.value);
+                    speedLabel.textContent = val;
+                    speed = val; // update runtime speed dynamically
+                    // Update preset active state
+                    [btnSpeedHalf, btnSpeed1, btnSpeed2, btnSpeedDefault].forEach(b=>{ if(b) b.classList.remove('active'); });
+                    if (val === DEFAULT_SPEED && btnSpeed1) btnSpeed1.classList.add('active');
+                    else if (val === Math.min(MAX_SPEED, Math.round(DEFAULT_SPEED * 2)) && btnSpeedHalf) btnSpeedHalf.classList.add('active');
+                    else if (val === Math.max(MIN_SPEED, Math.round(DEFAULT_SPEED / 2)) && btnSpeed2) btnSpeed2.classList.add('active');
+                });
+
+                // Speed preset handlers
+                function setPreset(preset){
+                    let newSpeed;
+                    if(preset === 'half') newSpeed = Math.min(MAX_SPEED, Math.round(DEFAULT_SPEED * 2));
+                    else if(preset === '1') newSpeed = DEFAULT_SPEED;
+                    else if(preset === '2') newSpeed = Math.max(MIN_SPEED, Math.round(DEFAULT_SPEED / 2));
+                    else newSpeed = DEFAULT_SPEED;
+                    speedRange.value = newSpeed;
+                    speedLabel.textContent = newSpeed;
+                    speed = Number(newSpeed);
+                    [btnSpeedHalf, btnSpeed1, btnSpeed2, btnSpeedDefault].forEach(b=>{ if(b) b.classList.remove('active'); });
+                    const map = {half:btnSpeedHalf, '1':btnSpeed1, '2':btnSpeed2, default:btnSpeedDefault};
+                    if(map[preset]) map[preset].classList.add('active');
+                }
+                if(btnSpeedHalf) btnSpeedHalf.addEventListener('click', ()=> setPreset('half'));
+                if(btnSpeed1) btnSpeed1.addEventListener('click', ()=> setPreset('1'));
+                if(btnSpeed2) btnSpeed2.addEventListener('click', ()=> setPreset('2'));
+                if(btnSpeedDefault) btnSpeedDefault.addEventListener('click', ()=> setPreset('default'));
+
+                algoSelect.addEventListener('change', ()=>{
+                    actions = [];
+                    currentAction = 0;
+                    status('Đổi thuật toán sang ' + (algoSelect.value === 'lomuto' ? 'Lomuto' : 'Hoare'));
+                });
+
+                // initial setup
+                originalArr = randArray(Number(sizeRange.value));
+                displayArr = originalArr.slice();
+                createBars();
+                // ensure default preset active
+                if (typeof setPreset === 'function') setPreset('1');
+                status('Sẵn sàng — Tạo mảng hoặc nhấn Play để bắt đầu');
+            } // end init
+
+            // Initialize when slide becomes active or DOM ready
+            function ensureInitOnSlide(ev){
+                const slide = (ev && ev.currentSlide) ? ev.currentSlide : document.querySelector('.reveal .slides section.present');
+                if(slide && slide.querySelector && slide.querySelector('#qs-bars')) initQS();
+            }
+
+            if(window.Reveal && Reveal.isReady !== undefined){
+                Reveal.on('slidechanged', ensureInitOnSlide);
+                ensureInitOnSlide();
+            } else {
+                document.addEventListener('DOMContentLoaded', ()=>{
+                    if(window.Reveal) { Reveal.on('slidechanged', ensureInitOnSlide); ensureInitOnSlide(); }
+                    else { ensureInitOnSlide(); }
+                });
+            }
+        })();
+        </script>
 </body>
 </html>
