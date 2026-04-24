@@ -107,18 +107,19 @@
         /* QuickSort Visualizer styles */
         .qs-wrapper {
             display: flex;
-            gap: 24px;
+            gap: 16px;
             align-items: flex-start;
             justify-content: center;
             padding: 12px 8px 24px;
+            flex-wrap: wrap;
         }
         .qs-left {
-            flex: 1.2;
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: stretch;
             gap: 12px;
-            min-width: 420px;
+            min-width: 380px;
         }
         #qs-bars {
             width: 100%;
@@ -224,6 +225,47 @@
         .qs-controls .muted { background:transparent; color:#374151; border:1px solid rgba(0,0,0,0.06); }
         .qs-status { margin-top:12px; font-size:0.95rem; color:#374151; min-height:38px; }
         .qs-legend { margin-top: 10px; font-size: 0.9rem; color:#374151; }
+
+        /* Code tracking panel */
+        .qs-code-panel {
+            flex: 1;
+            min-width: 280px;
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            max-height: 450px;
+            overflow-y: auto;
+            border: 1px solid #334155;
+        }
+        .qs-code-panel .code-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            color: #38bdf8;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 8px;
+        }
+        .qs-code-line {
+            padding: 4px 8px;
+            margin: 2px 0;
+            border-left: 3px solid transparent;
+            transition: all 150ms ease;
+        }
+        .qs-code-line.highlight {
+            background: rgba(59, 130, 246, 0.2);
+            border-left-color: #3b82f6;
+            color: #60a5fa;
+        }
+        .qs-code-line .code-num {
+            display: inline-block;
+            width: 30px;
+            color: #64748b;
+            margin-right: 8px;
+        }
 
         /* Highlight states for grid cells */
         .qs-bar.compare { border: 3px solid #f59e0b; background: #fffbeb; }
@@ -402,13 +444,13 @@
             <!-- ================= GIAI ĐOẠN 2 ================= -->
 
             <!-- Slide 20: Section 2 Title -->
-            <section data-background-color="#fdfaeb" data-auto-animate>
+            <section data-auto-animate>
                 <div class="section-tag" style="background: var(--bg-light-purple); color: var(--accent-purple);">Giai đoạn 2</div>
                 <h2>Lập trình C++<br><span class="highlight-purple">(Implementation)</span></h2>
             </section>
 
             <!-- Slide 21: Phase 2 Intro -->
-            <section data-background-color="#fdfaeb" data-auto-animate>
+            <section data-auto-animate>
                 <div class="section-tag" style="background: var(--bg-light-purple); color: var(--accent-purple);">Giai đoạn 2</div>
                 <p>Chuyển đổi lý thuyết thành <strong>mã nguồn thực tế</strong> theo Hướng đối tượng (OOP), tích hợp linh hoạt 2 tùy chọn phân hoạch.</p>
             </section>
@@ -566,6 +608,37 @@ public:
                         </div>
                         <div class="qs-legend">Chú thích: <span style="color:#f59e0b">So sánh (vàng)</span>, <span style="color:#ef4444">Hoán đổi (đỏ)</span>, <span style="color:#059669">Pivot (xanh)</span></div>
                     </div>
+                    <div class="qs-code-panel">
+                        <div id="qs-code-content-lomuto">
+                            <div class="qs-code-line" data-line="1"><span class="code-num">1</span>int Partition_Lomuto(int l, int r) {</div>
+                            <div class="qs-code-line" data-line="2"><span class="code-num">2</span>    int pivot = arr[r];</div>
+                            <div class="qs-code-line" data-line="3"><span class="code-num">3</span>    int i = l - 1;</div>
+                            <div class="qs-code-line" data-line="4"><span class="code-num">4</span>    for (int j = l; j < r; j++) {</div>
+                            <div class="qs-code-line" data-line="5"><span class="code-num">5</span>        if (arr[j] <= pivot) {</div>
+                            <div class="qs-code-line" data-line="6"><span class="code-num">6</span>            ++i;</div>
+                            <div class="qs-code-line" data-line="7"><span class="code-num">7</span>            swap(arr[i], arr[j]);</div>
+                            <div class="qs-code-line" data-line="8"><span class="code-num">8</span>        }</div>
+                            <div class="qs-code-line" data-line="9"><span class="code-num">9</span>    }</div>
+                            <div class="qs-code-line" data-line="10"><span class="code-num">10</span>   ++i; swap(arr[i], arr[r]);</div>
+                            <div class="qs-code-line" data-line="11"><span class="code-num">11</span>   return i;</div>
+                            <div class="qs-code-line" data-line="12"><span class="code-num">12</span>}</div>
+                        </div>
+                        <div id="qs-code-content-hoare" style="display:none;">
+                            <div class="qs-code-line" data-line="1"><span class="code-num">1</span>int partition_Hoare(int l, int r) {</div>
+                            <div class="qs-code-line" data-line="2"><span class="code-num">2</span>    int pivot = arr[l];</div>
+                            <div class="qs-code-line" data-line="3"><span class="code-num">3</span>    int i = l - 1, j = r + 1;</div>
+                            <div class="qs-code-line" data-line="4"><span class="code-num">4</span>    while (true) {</div>
+                            <div class="qs-code-line" data-line="5"><span class="code-num">5</span>        do { ++i; } while (arr[i] < pivot);</div>
+                            <div class="qs-code-line" data-line="6"><span class="code-num">6</span>        do { --j; } while (arr[j] > pivot);</div>
+                            <div class="qs-code-line" data-line="7"><span class="code-num">7</span>        if (i < j) {</div>
+                            <div class="qs-code-line" data-line="8"><span class="code-num">8</span>            swap(arr[i], arr[j]);</div>
+                            <div class="qs-code-line" data-line="9"><span class="code-num">9</span>        } else {</div>
+                            <div class="qs-code-line" data-line="10"><span class="code-num">10</span>           return j;</div>
+                            <div class="qs-code-line" data-line="11"><span class="code-num">11</span>       }</div>
+                            <div class="qs-code-line" data-line="12"><span class="code-num">12</span>   }</div>
+                            <div class="qs-code-line" data-line="13"><span class="code-num">13</span>}</div>
+                        </div>
+                    </div>
                     <div class="qs-controls">
                         <label>Partition</label>
                         <select id="qs-algo"><option value="lomuto">Lomuto</option><option value="hoare">Hoare</option></select>
@@ -670,14 +743,38 @@ int main() {
                 function updatePointerLabels(){
                     document.querySelectorAll('#qs-array-container .qs-bar').forEach((cell, idx)=>{
                         const pointerSpan = cell.querySelector('.qs-pointer');
-                        let label = '';
-                        if(idx === pointers.i) label = 'i';
-                        else if(idx === pointers.j) label = 'j';
-                        else if(idx === pointers.pivot) label = 'Pivot';
-                        if(pointerSpan) pointerSpan.textContent = label;
-                        if(label === 'Pivot') cell.classList.add('pivot');
-                        else cell.classList.remove('pivot');
+                        if(pointerSpan) {
+                            if(idx === pointers.pivot) {
+                                pointerSpan.textContent = 'Pivot';
+                                cell.classList.add('pivot');
+                                cell.classList.remove('pointer-i', 'pointer-j');
+                            } else if(idx === pointers.i && idx === pointers.j) {
+                                pointerSpan.textContent = 'i, j';
+                                cell.classList.add('pointer-i', 'pointer-j');
+                                cell.classList.remove('pivot');
+                            } else if(idx === pointers.i) {
+                                pointerSpan.textContent = 'i';
+                                cell.classList.add('pointer-i');
+                                cell.classList.remove('pivot', 'pointer-j');
+                            } else if(idx === pointers.j) {
+                                pointerSpan.textContent = 'j';
+                                cell.classList.add('pointer-j');
+                                cell.classList.remove('pivot', 'pointer-i');
+                            } else {
+                                pointerSpan.textContent = '';
+                                cell.classList.remove('pivot', 'pointer-i', 'pointer-j');
+                            }
+                        }
                     });
+                }
+
+                function highlightCodeLine(lineNum, algo) {
+                    const contentId = algo === 'lomuto' ? 'qs-code-content-lomuto' : 'qs-code-content-hoare';
+                    document.querySelectorAll('.qs-code-line').forEach(line => line.classList.remove('highlight'));
+                    if(lineNum > 0) {
+                        const line = document.querySelector(`#${contentId} .qs-code-line[data-line="${lineNum}"]`);
+                        if(line) line.classList.add('highlight');
+                    }
                 }
 
                 function randArray(n){
@@ -789,6 +886,7 @@ int main() {
 
                 async function processAction(action){
                     if(!action) return;
+                    const algo = algoSelect.value;
                     switch(action.type){
                         case 'compare': {
                             const [i,j] = action.indices;
@@ -796,6 +894,7 @@ int main() {
                             const bj = document.querySelector(`#qs-array-container .qs-bar[data-index="${j}"]`);
                             pointers.i = i; pointers.j = j;
                             updatePointerLabels();
+                            highlightCodeLine(algo === 'lomuto' ? 5 : 5, algo);
                             if(bi) bi.classList.add('compare');
                             if(bj) bj.classList.add('compare');
                             status(`So sánh chỉ số ${i} và ${j}`);
@@ -811,6 +910,7 @@ int main() {
                             if(bi) bi.classList.add('swap');
                             if(bj) bj.classList.add('swap');
                             status(`Hoán đổi chỉ số ${i} và ${j}`);
+                            highlightCodeLine(algo === 'lomuto' ? 7 : 8, algo);
                             const tmp = displayArr[i]; displayArr[i]=displayArr[j]; displayArr[j]=tmp;
                             updateBars();
                             pointers.i = i; pointers.j = j;
@@ -825,6 +925,7 @@ int main() {
                             const b = document.querySelector(`#qs-array-container .qs-bar[data-index="${idx}"]`);
                             pointers.pivot = idx;
                             updatePointerLabels();
+                            highlightCodeLine(algo === 'lomuto' ? 2 : 2, algo);
                             if(b) b.classList.add('pivot');
                             status(`Chọn pivot tại chỉ số ${idx} (giá trị ${action.pivot})`);
                             await sleep(Math.max(100, speed/2));
@@ -834,6 +935,7 @@ int main() {
                             const idx = action.index;
                             const b = document.querySelector(`#qs-array-container .qs-bar[data-index="${idx}"]`);
                             if(b){ b.classList.remove('pivot'); b.classList.add('placed'); }
+                            highlightCodeLine(algo === 'lomuto' ? 10 : 10, algo);
                             status(`Pivot đặt vào vị trí ${idx}`);
                             await sleep(Math.max(120, speed/2));
                             break;
@@ -847,12 +949,14 @@ int main() {
                         case 'recurse': {
                             const [l,r] = action.range;
                             status(`Đệ quy trên đoạn [${l}, ${r}]`);
+                            highlightCodeLine(0, algo);
                             await sleep(Math.max(80, speed/2));
                             break;
                         }
                         case 'return': {
                             const idx = action.index;
                             status(`Trả về ranh giới ${idx}`);
+                            highlightCodeLine(algo === 'lomuto' ? 11 : 10, algo);
                             await sleep(Math.max(60, speed/3));
                             break;
                         }
@@ -872,7 +976,10 @@ int main() {
                     }
                     isPlaying = false;
                     playBtn.textContent = 'Play';
-                    if(currentAction >= actions.length) status('Hoàn tất minh họa'); 
+                    if(currentAction >= actions.length) {
+                        document.querySelectorAll('.qs-code-line').forEach(line => line.classList.remove('highlight'));
+                        status('Hoàn tất minh họa');
+                    }
                 }
 
                 // Event wiring
@@ -884,6 +991,8 @@ int main() {
                     actions = [];
                     currentAction = 0;
                     createBars();
+                    clearHighlights();
+                    document.querySelectorAll('.qs-code-line').forEach(line => line.classList.remove('highlight'));
                     status('Mảng mới đã tạo');
                 });
 
@@ -912,6 +1021,7 @@ int main() {
                     actions = [];
                     displayArr = originalArr.slice();
                     createBars();
+                    clearHighlights();
                     status('Đã reset về mảng gốc');
                     playBtn.textContent = 'Play';
                 });
@@ -953,6 +1063,17 @@ int main() {
                 algoSelect.addEventListener('change', ()=>{
                     actions = [];
                     currentAction = 0;
+                    const contentLomuto = document.getElementById('qs-code-content-lomuto');
+                    const contentHoare = document.getElementById('qs-code-content-hoare');
+                    const codeTitle = document.querySelector('.qs-code-panel .code-title');
+                    if(algoSelect.value === 'lomuto') {
+                        if(contentLomuto) contentLomuto.style.display = 'block';
+                        if(contentHoare) contentHoare.style.display = 'none';
+                        if(codeTitle) codeTitle.textContent = '📝 Code Tracking - Lomuto';
+                    } else {
+                        if(contentLomuto) contentLomuto.style.display = 'none';
+                        if(contentHoare) contentHoare.style.display = 'block';
+                    }
                     status('Đổi thuật toán sang ' + (algoSelect.value === 'lomuto' ? 'Lomuto' : 'Hoare'));
                 });
 
