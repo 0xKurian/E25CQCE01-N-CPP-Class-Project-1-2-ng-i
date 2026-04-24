@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Thuyết Trình: Thuật Toán Quick Sort</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Reveal.js core CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    
+    <!-- Reveal.js Theme (White background) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css" id="theme">
+    
+    <!-- Syntax highlighting for code (Light theme: GitHub) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+    
+    <!-- Custom CSS (White theme overrides + new font Inter) -->
+    <style>
+        :root {
+            --accent-blue: #2563eb; /* Darker blue for light BG */
+            --accent-purple: #7c3aed; /* Darker purple for light BG */
+            --bg-light-blue: #eff6ff;
+            --bg-light-purple: #f3e8ff;
+        }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+            text-transform: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+        }
+        .reveal {
+            font-family: 'Inter', sans-serif;
+            color: #1f2937; /* Dark gray text */
+        }
+        .reveal code, .reveal pre {
+            font-family: 'Consolas', 'Menlo', 'Monaco', 'Courier New', monospace !important;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        .reveal blockquote {
+            border-left: 5px solid var(--accent-blue);
+            background: var(--bg-light-blue);
+            padding: 20px;
+            font-style: normal;
+            box-shadow: none;
+            color: #374151;
+        }
+        .highlight-blue {
+            color: var(--accent-blue);
+        }
+        .highlight-purple {
+            color: var(--accent-purple);
+        }
+        .reveal ul {
+            display: block;
+        }
+        .reveal ul li {
+            margin-bottom: 0.5em; /* Giảm margin bớt */
+        }
+        .reveal ul ul li {
+            margin-bottom: 0.2em; /* Nested list margin nhỏ hơn */
+            font-size: 0.85em; /* Nested list font size nhỏ hơn */
+        }
+        .reveal pre {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Lighter shadow */
+            border-radius: 8px;
+            width: 100%;
+        }
+        /* Custom image styling */
+        .reveal section img.slide-img {
+            border: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08); /* Soft shadow on white */
+            background: transparent;
+            border-radius: 12px;
+            max-height: 400px;
+            margin-top: 20px;
+            object-fit: cover;
+        }
+        .section-tag {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--bg-light-blue);
+            color: var(--accent-blue);
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.6em;
+            margin-bottom: 20px;
+        }
+        /* Layout classes */
+        .flex-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+        }
+        .col {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Cover -->
+            <section data-auto-animate>
+                <h3 style="color: #6b7280; font-size: 1em;">Bài Giảng Điện Tử</h3>
+                <h1 class="gradient-text">Thuật Toán Quick Sort</h1>
+                <p>Khám phá lý thuyết, cơ chế phân hoạch và phân tích mã nguồn C++.</p>
+                <p style="font-size: 0.6em; margin-top: 50px; color: #9ca3af;">Hãy sử dụng phím Mũi Tên (Arrow keys) hoặc Vuốt (Swipe) để chuyển trang.</p>
+            </section>
+
+            <!-- Slide 2: Table of Contents -->
+            <section>
+                <h2>Mục lục</h2>
+                <ul>
+                    <li class="fragment">Giai đoạn 1: Nội dung nghiên cứu (Comprehension)
+                        <ul>
+                            <li>Định nghĩa Quick Sort</li>
+                            <li>Cách chọn Chốt (Pivot)</li>
+                            <li>Hàm phân hoạch (Partition)</li>
+                            <li>Độ phức tạp (Complexity)</li>
+                        </ul>
+                    </li>
+                    <li class="fragment">Giai đoạn 2: Lập trình C++ (Implementation)
+                        <ul>
+                            <li>Phân tích danh sách công việc</li>
+                            <li>Triển khai mã nguồn cấu trúc</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- ================= GIAI ĐOẠN 1 ================= -->
+            
+            <!-- Slide 3: Section 1 Title -->
+            <section data-background-color="#f8fafc" data-auto-animate>
+                <div class="section-tag">Giai đoạn 1</div>
+                <h2>Nội dung nghiên cứu<br><span class="highlight-blue">(Comprehension)</span></h2>
+            </section>
+
+            <!-- Slide 4: Intro to Phase 1 -->
+            <section data-background-color="#f8fafc" data-auto-animate>
+                <div class="section-tag">Giai đoạn 1</div>
+                <p>Tổng hợp những <strong>kiến thức cốt lõi</strong> về thuật toán Quick Sort mà nhóm đã nghiên cứu và làm cơ sở vững chắc để triển khai dự án lập trình thực tế.</p>
+            </section>
+
+            <!-- Slide 5: Topic 1 -->
+            <section>
+                <h2>1. Quick Sort là gì?</h2>
+            </section>
+
+            <!-- Slide 6: Definition -->
+            <section>
+                <h3>Tổng quan về Quick Sort</h3>
+                <blockquote>
+                    <strong>Quick Sort</strong> là một thuật toán sắp xếp hiệu suất cao, hoạt động dựa trên chiến lược cực kỳ nổi tiếng: <strong>"Chia để trị" (Divide and Conquer)</strong>.
+                </blockquote>
+            </section>
+
+            <!-- Slide 7: Pivot -->
+            <section>
+                <h3>Bước 1: Chọn Chốt (Pivot)</h3>
+                <p>Thuật toán không sắp xếp ngay lập tức mà luôn bắt đầu bằng việc chọn ra một phần tử làm mốc.</p>
+                <p>Phần tử mốc này gọi là <span class="highlight-blue">Chốt (Pivot)</span>.</p>
+            </section>
+
+            <!-- Slide 8: Partitioning + IMAGE -->
+            <section>
+                <h3>Bước 2: Phân tách (Partitioning)</h3>
+                <p>Tiến hành phân tách mảng ban đầu thành hai mảng con phân biệt dựa theo Pivot:</p>
+                <img src="assets/quick_sort_divide.png" class="slide-img" alt="Minh hoạ Quick Sort Pivot" />
+            </section>
+
+            <!-- Slide 9: Recursion -->
+            <section>
+                <h3>Bước 3: Đệ quy (Recursion)</h3>
+                <p>Cuối cùng, thuật toán liên tục gọi <strong>đệ quy</strong> chính nó để lặp lại quá trình trên các mảng con.</p>
+                <p>Quá trình lặp lại cho đến khi toàn bộ mảng được sắp xếp hoàn chỉnh (mảng con chỉ còn 1 phần tử).</p>
+            </section>
+
+            <!-- Slide 10: Topic 2 + IMAGE -->
+            <section>
+                <h2>2. Cách chọn Chốt (Pivot)</h2>
+                <p>Thay vì chỉ dùng một cách cố định, dự án tích hợp <strong>hai chiến lược phân hoạch kinh điển</strong> để linh hoạt so sánh.</p>
+                <img src="assets/two_pointers_algo.png" class="slide-img" alt="Minh hoạ Con Trỏ Thuật Toán" style="max-height: 320px;" />
+            </section>
+
+            <!-- Slide 11: Lomuto -->
+            <section>
+                <h3>Chiến lược Lomuto</h3>
+                <ul>
+                    <li>Chọn <strong>phần tử cuối cùng</strong> của mảng/mảng con làm Pivot.</li>
+                    <li><strong>Ưu điểm:</strong> Mã nguồn cực kỳ đơn giản và dễ cài đặt, dễ hiểu cho vòng lặp duyệt.</li>
+                    <li><strong>Đối tượng:</strong> Rất phù hợp cho người mới bắt đầu học thuật toán.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 12: Hoare -->
+            <section>
+                <h3>Chiến lược Hoare</h3>
+                <ul>
+                    <li>Chọn <strong>phần tử đầu tiên</strong> của mảng/mảng con làm Pivot.</li>
+                    <li><strong>Đặc điểm:</strong> Phức tạp hơn về mặt tư duy con trỏ.</li>
+                    <li><strong>Ưu điểm:</strong> Tối ưu hơn trong thực tế nhờ <em>giảm thiểu được số lần hoán đổi (swap)</em> so với Lomuto.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 13: Topic 3 -->
+            <section>
+                <h2>3. Hàm Phân hoạch (Partition)</h2>
+                <p>Cơ chế "trái tim" của thuật toán thay đổi ra sao?</p>
+            </section>
+
+            <!-- Slide 14: Partition Lomuto Detail -->
+            <section>
+                <h3>Cơ chế Phân hoạch Lomuto</h3>
+                <ul>
+                    <li class="fragment">Dùng một biến <code>i</code> đánh dấu ranh giới các phần tử nhỏ hơn Pivot.</li>
+                    <li class="fragment">Duyệt qua đoạn <code>[l, r-1]</code> bằng một vòng lặp.</li>
+                    <li class="fragment">Mỗi khi gặp phần tử <strong>&lt;= Pivot</strong>, dồn phần tử đó về nửa bên trái và tăng <code>i</code>.</li>
+                    <li class="fragment">Cuối cùng, đặt Pivot vào đúng vị trí ranh giới <code>i</code>.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 15: Partition Hoare Detail -->
+            <section>
+                <h3>Cơ chế Phân hoạch Hoare</h3>
+                <ul>
+                    <li class="fragment">Sử dụng hai con trỏ <code>i</code> (chạy từ trái sang) và <code>j</code> (chạy từ phải sang).</li>
+                    <li class="fragment">Dừng lại khi phát hiện cặp phần tử nằm <strong>sai vị trí</strong> (phần tử lớn bên trái, phần tử nhỏ bên phải Pivot).</li>
+                    <li class="fragment">Tiến hành <strong>hoán đổi (swap)</strong> chúng cho nhau.</li>
+                    <li class="fragment">Lặp lại liên tục cho đến khi hai con trỏ vượt qua nhau.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 16: Topic 4 + IMAGE -->
+            <section>
+                <h2>4. Độ phức tạp (Complexity)</h2>
+                <img src="assets/time_complexity_graph.png" class="slide-img" alt="Minh hoạ Độ phức tạp thuật toán" style="max-height: 350px;" />
+            </section>
+
+            <!-- Slide 17: Time Complexity 1 -->
+            <section>
+                <h3>Thời gian (Time Complexity)</h3>
+                <h4>Trường hợp tốt nhất & Trung bình: <span class="highlight-blue">O(n log n)</span></h4>
+                <p>Đạt được khi Pivot chia mảng thành hai nửa <em>tương đối bằng nhau</em> ở mỗi tầng của cây đệ quy.</p>
+            </section>
+
+            <!-- Slide 18: Time Complexity 2 -->
+            <section>
+                <h3>Thời gian (Time Complexity)</h3>
+                <h4>Trường hợp xấu nhất: <span style="color: #dc2626;">O(n²)</span></h4>
+                <p>Xảy ra khi mảng đầu vào đã được sắp xếp sẵn (hoặc ngược lại) và thuật toán rơi vào tình huống phân hoạch bị lệch hoàn toàn (một bên 0 phần tử, bên kia <code>n-1</code> phần tử).</p>
+            </section>
+
+            <!-- Slide 19: Space Complexity -->
+            <section>
+                <h3>Không gian (Space Complexity)</h3>
+                <h4>Trường hợp trung bình: <span class="highlight-blue">O(log n)</span></h4>
+                <p style="font-size: 0.8em; color: #4b5563;">Do thuật toán thao tác trực tiếp trên mảng gốc <em>(in-place)</em> và không cần mảng phụ. Bộ nhớ thiết yếu duy nhất là <strong>Ngăn xếp gọi hàm (Call Stack)</strong> để lưu vết đệ quy.</p>
+            </section>
+
+            <!-- ================= GIAI ĐOẠN 2 ================= -->
+
+            <!-- Slide 20: Section 2 Title -->
+            <section data-background-color="#fdfaeb" data-auto-animate>
+                <div class="section-tag" style="background: var(--bg-light-purple); color: var(--accent-purple);">Giai đoạn 2</div>
+                <h2>Lập trình C++<br><span class="highlight-purple">(Implementation)</span></h2>
+            </section>
+
+            <!-- Slide 21: Phase 2 Intro -->
+            <section data-background-color="#fdfaeb" data-auto-animate>
+                <div class="section-tag" style="background: var(--bg-light-purple); color: var(--accent-purple);">Giai đoạn 2</div>
+                <p>Chuyển đổi lý thuyết thành <strong>mã nguồn thực tế</strong> theo Hướng đối tượng (OOP), tích hợp linh hoạt 2 tùy chọn phân hoạch.</p>
+            </section>
+
+            <!-- Slide 22: Tasks -->
+            <section>
+                <h2>Checklist Công Việc Nhóm</h2>
+            </section>
+
+            <!-- Slide 23: Task 1 & 2 -->
+            <section>
+                <h3>Công việc hoàn thành (1/2)</h3>
+                <ul>
+                    <li class="fragment"><strong>Tối ưu thư viện & OOP:</strong><br>Dùng <code>&lt;bits/stdc++.h&gt;</code> để bao hàm nhanh. Xây dựng lớp <code>QuickSortDemo</code> để đóng gói hàm và biến.</li>
+                    <li class="fragment"><strong>Quản lý an toàn dữ liệu:</strong><br>Dùng <code>vector&lt;int&gt;</code> kết hợp <code>resize()</code> thay vì mảng tĩnh. Cấp phát linh hoạt và tránh tràn bộ nhớ.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 24: Task 3 & 4 -->
+            <section>
+                <h3>Công việc hoàn thành (2/2)</h3>
+                <ul>
+                    <li class="fragment"><strong>Đa dạng hoá đệ quy:</strong><br>Cài đặt cả 2 cặp hàm độc lập: <code>Partition_Lomuto</code> và <code>partition_Hoare</code>.</li>
+                    <li class="fragment"><strong>Hiệu ứng Step-by-step:</strong><br>Lồng hàm <code>printArray()</code> sau mỗi lệnh <code>swap()</code> để in trực tiếp bước đổi chỗ trên Console.</li>
+                    <li class="fragment"><strong>Menu Console:</strong><br>Xây dựng giao diện nhập xuất tương tác cho người dùng chọn thuật toán minh hoạ.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 25: Code Intro -->
+            <section>
+                <h2>Phân tích Mã Nguồn</h2>
+                <p>Chúng ta sẽ nhìn sâu vào lớp <code>QuickSortDemo</code></p>
+            </section>
+
+            <!-- Slide 26: Class Def -->
+            <section>
+                <h3>1. Lớp & In mảng</h3>
+                <pre><code class="language-cpp" data-trim data-noescape data-line-numbers="1-3|5-16">
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+class QuickSortDemo {
+private:
+    vector&lt;int&gt; arr;
+
+    // Hàm in mảng minh họa: [ 10, 20, 30 ]
+    void printArray() {
+        cout &lt;&lt; "[ ";
+        for (int i = 0; i &lt; arr.size(); i++) {
+            cout &lt;&lt; arr[i] &lt;&lt; (i &lt; arr.size() - 1 ? ", " : "");
+        }
+        cout &lt;&lt; " ]\n";
+    }
+                </code></pre>
+            </section>
+
+            <!-- Slide 27: Lomuto Partition Code -->
+            <section>
+                <h3>2. Phân hoạch Lomuto</h3>
+                <pre><code class="language-cpp" data-trim data-noescape data-line-numbers="1-2|3-4|6-14|15-16">
+int Partition_Lomuto(int l, int r) {
+    int pivot = arr[r];
+    int i = l - 1;
+    cout &lt;&lt; "  -&gt; Pivot: " &lt;&lt; pivot &lt;&lt; endl;
+
+    for (int j = l; j &lt; r; j++) {
+        if (arr[j] &lt;= pivot) {
+            ++i;
+            swap(arr[i], arr[j]);
+            if (i != j) {
+                printArray(); // Step-by-step in ra
+            }
+        }
+    }
+    ++i;
+    swap(arr[i], arr[r]); // Đưa pivot về giữa
+    return i;
+}
+                </code></pre>
+            </section>
+
+            <!-- Slide 28: Lomuto QuickSort Recursion -->
+            <section>
+                <h3>Đệ quy Lomuto</h3>
+                <pre><code class="language-cpp" data-trim data-noescape>
+void QuickSort_Lomuto(int l, int r) {
+    if (l >= r) return; // Điều kiện dừng đệ quy
+    
+    cout &lt;&lt; "\n[Step] Sorting " &lt;&lt; l &lt;&lt; " to " &lt;&lt; r &lt;&lt; endl;
+    
+    // 1. Phân hoạch mảng
+    int p = Partition_Lomuto(l, r);
+    
+    // 2. Đệ quy 2 nửa
+    QuickSort_Lomuto(l, p - 1);
+    QuickSort_Lomuto(p + 1, r);
+}
+                </code></pre>
+            </section>
+
+            <!-- Slide 29: Hoare Code Summary -->
+            <section>
+                <h3>3. Phân hoạch Hoare</h3>
+                <pre><code class="language-cpp" data-trim data-noescape data-line-numbers="2-3|6-9|11-14">
+int partition_Hoare(int l, int r) {
+    int pivot = arr[l];
+    int i = l - 1, j = r + 1;
+
+    while (1) {
+        do { ++i; } while (arr[i] &lt; pivot);
+        do { --j; } while (arr[j] &gt; pivot);
+        
+        if (i &lt; j) {
+            swap(arr[i], arr[j]);
+            printArray(); // In bước hoán đổi Hoare
+        } else {
+            return j; // Trả về ranh giới
+        }
+    }
+}
+                </code></pre>
+            </section>
+
+            <!-- Slide 30: Init data and menu -->
+            <section>
+                <h3>4. Đầu vào & Giao diện Menu</h3>
+                <pre><code class="language-cpp" data-trim data-noescape data-line-numbers="2-8|11-19">
+public:
+    void inputData() {
+        int n; cin &gt;&gt; n;
+        arr.resize(n); 
+        for (int i = 0; i &lt; n; i++) {
+            cin &gt;&gt; arr[i];
+        }
+    }
+
+    void startSorting() {
+        int choice;
+        cout &lt;&lt; "1. Lomuto\n2. Hoare\nChoice: ";
+        cin &gt;&gt; choice;
+
+        if (choice == 1) QuickSort_Lomuto(0, arr.size() - 1);
+        else QuickSort_Hoare(0, arr.size() - 1);
+    }
+                </code></pre>
+            </section>
+
+            <!-- Slide 31: Main Function -->
+            <section>
+                <h3>Hàm Main</h3>
+                <p>Khởi tạo <strong>Lớp Đối tượng</strong> và gọi quy trình một cách gọn gàng!</p>
+                <pre><code class="language-cpp" data-trim data-noescape>
+int main() {
+    QuickSortDemo qSortProject;
+
+    qSortProject.inputData();
+    qSortProject.startSorting();
+    qSortProject.displayFinalResult();
+
+    return 0;
+}
+                </code></pre>
+            </section>
+
+            <!-- Slide 32: End -->
+            <section data-background-color="#ffffff">
+                <h1 style="color: var(--accent-purple);">Thank You!</h1>
+                <p>Cảm ơn các bạn đã lắng nghe phần trình bày<br>vừa tìm hiểu lý thuyết, vừa minh họa bằng C++.</p>
+                <p style="margin-top: 40px; font-size: 0.6em; color: #9ca3af;">Nhóm thực hiện dự án</p>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js script tags -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+    <script>
+        // Init Reveal.js
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t', // show current slide / total
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+            
+            // Learn about plugins: https://revealjs.com/plugins/
+            plugins: [ RevealHighlight ]
+        });
+    </script>
+</body>
+</html>
