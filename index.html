@@ -279,6 +279,99 @@
         .qs-controls .speed-presets { display:none; gap:8px; margin-top:10px; flex-wrap:wrap; }
         .qs-controls .speed-presets button { width:calc(25% - 6px); min-width:56px; padding:10px 6px; border-radius:10px; background:#eef2ff; color:var(--accent-purple); border:1px solid rgba(124,58,237,0.12); cursor:pointer; font-weight:700; }
         .qs-controls .speed-presets button.active { background:var(--accent-purple); color:#fff; border-color:rgba(124,58,237,0.5); box-shadow:0 6px 18px rgba(124,58,237,0.12); }
+
+        /* === Partition Symmetric Layout === */
+        .partition-symmetric {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 24px auto;
+            max-width: 900px;
+        }
+        .partition-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+        .partition-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            border-color: rgba(0, 0, 0, 0.12);
+        }
+        .partition-card h3 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+        }
+        .partition-card.lomuto h3 { color: var(--accent-blue); }
+        .partition-card.hoare h3 { color: var(--accent-purple); }
+        .partition-card.lomuto { border-left: 5px solid var(--accent-blue); }
+        .partition-card.hoare { border-left: 5px solid var(--accent-purple); }
+        .feature-list {
+            color: #374151;
+            padding-left: 20px;
+            margin: 12px 0 20px;
+            line-height: 1.7;
+            font-size: 0.95em;
+        }
+        .feature-list li {
+            margin-bottom: 12px;
+            color: #4b5563;
+        }
+        .feature-list li strong { color: #1f2937; font-weight: 600; }
+        .feature-list code {
+            background: rgba(37, 99, 235, 0.08);
+            color: var(--accent-blue);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            font-weight: 500;
+        }
+        .partition-card.hoare .feature-list code {
+            background: rgba(124, 58, 237, 0.08);
+            color: var(--accent-purple);
+        }
+        .code-block {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 14px;
+            border: 1px solid #334155;
+            overflow-x: auto;
+            margin-top: 12px;
+        }
+        .code-block pre {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: transparent !important;
+        }
+        .code-block code {
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 0.8rem;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        .partition-note {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            color: #78350f;
+            margin-top: 16px;
+        }
+        .partition-note strong { color: #92400e; }
+        @media (max-width: 768px) {
+            .partition-symmetric { grid-template-columns: 1fr; }
+            .partition-card h3 { font-size: 1.1rem; }
+            .feature-list { font-size: 0.9em; }
+        }
     </style>
 </head>
 <body>
@@ -327,24 +420,42 @@
                 <p>Tổng hợp những <strong>kiến thức cốt lõi</strong> về thuật toán Quick Sort mà nhóm đã nghiên cứu và làm cơ sở vững chắc để triển khai dự án lập trình thực tế.</p>
             </section>
 
-            <!-- Slide 5: Topic 1 -->
+            <!-- Slide 5: Topic 1 - QuickSort là gì? -->
             <section>
-                <h2>1. Quick Sort là gì?</h2>
-            </section>
-
-            <!-- Slide 6: Definition -->
-            <section>
-                <h3>Tổng quan về Quick Sort</h3>
-                <blockquote>
-                    <strong>Quick Sort</strong> là một thuật toán sắp xếp hiệu suất cao, hoạt động dựa trên chiến lược cực kỳ nổi tiếng: <strong>"Chia để trị" (Divide and Conquer)</strong>.
-                </blockquote>
+                <h2>1️⃣ QuickSort là gì?</h2>
+                <p><strong>Tư duy cốt lõi:</strong> <code>Divide & Conquer</code> (Chia để trị)</p>
+                <ul style="font-size: 0.9em;">
+                    <li class="fragment"><strong>Chọn Pivot:</strong> Lấy 1 phần tử làm mốc chia mảy.</li>
+                    <li class="fragment"><strong>Phân hoạch:</strong> Đẩy phần tử <code>&lt; Pivot</code> sang trái, <code>≥ Pivot</code> sang phải.</li>
+                    <li class="fragment"><strong>Đệ quy:</strong> Lặp lại trên 2 mảng con cho đến khi kích thước ≤ 1.</li>
+                </ul>
             </section>
 
             <!-- Slide 7: Pivot -->
             <section>
-                <h3>Bước 1: Chọn Chốt (Pivot)</h3>
-                <p>Thuật toán không sắp xếp ngay lập tức mà luôn bắt đầu bằng việc chọn ra một phần tử làm mốc.</p>
-                <p>Phần tử mốc này gọi là <span class="highlight-blue">Chốt (Pivot)</span>.</p>
+                <h2>2️⃣ Chiến lược chọn Pivot</h2>
+                <table style="font-size: 0.8em; margin-top: 20px;">
+                    <tr>
+                        <th>Tiêu chí</th>
+                        <th>Lomuto</th>
+                        <th>Hoare</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Vị trí</strong></td>
+                        <td>Cuối cùng <code>arr[r]</code></td>
+                        <td>Đầu tiên <code>arr[l]</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Độ phức tạp</strong></td>
+                        <td>Đơn giản, 1 vòng lặp</td>
+                        <td>2 con trỏ, phức tạp hơn</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hiệu năng</strong></td>
+                        <td>Nhiều swap hơn</td>
+                        <td>~20% nhanh hơn</td>
+                    </tr>
+                </table>
             </section>
 
             <!-- Slide 8: Partitioning + IMAGE -->
@@ -361,86 +472,66 @@
                 <p>Quá trình lặp lại cho đến khi toàn bộ mảng được sắp xếp hoàn chỉnh (mảng con chỉ còn 1 phần tử).</p>
             </section>
 
-            <!-- Slide 10: Topic 2 + IMAGE -->
-            <section>
-                <h2>2. Cách chọn Chốt (Pivot)</h2>
-                <p>Thay vì chỉ dùng một cách cố định, dự án tích hợp <strong>hai chiến lược phân hoạch kinh điển</strong> để linh hoạt so sánh.</p>
-                <img src="assets/two_pointers_algo.png" class="slide-img" alt="Minh hoạ Con Trỏ Thuật Toán" style="max-height: 320px;" />
+            <!-- 🔹 SLIDE 10: 3️⃣ Cơ chế Phân hoạch (Symmetric) -->
+            <section style="overflow-y: auto; height: 100vh; padding: 40px;">
+                <h2>3️⃣ Cơ chế Phân hoạch (Partition)</h2>  
+                <div class="partition-symmetric">
+                    <div class="partition-card lomuto">
+                        <h3>🔵 Lomuto Partition</h3>
+                        <ul class="feature-list">
+                            <li><strong>1 con trỏ</strong> <code>i</code> làm ranh giới vùng &lt; Pivot</li>
+                            <li>Duyệt tuần tự <code>j</code> từ <code>l → r-1</code></li>
+                            <li>Nếu <code>arr[j] ≤ pivot</code> → <code>i++</code>, swap <code>arr[i] ↔ arr[j]</code></li>
+                            <li>Kết thúc: đặt <code>pivot</code> vào <code>i+1</code>, trả về vị trí</li>
+                        </ul>
+                        <div class="code-mini">
+                        </div>
+                    </div>
+
+                    <div class="partition-card hoare">
+                        <h3>🔴 Hoare Partition</h3>
+                        <ul class="feature-list">
+                            <li><strong>2 con trỏ</strong> <code>i</code> (trái), <code>j</code> (phải) ngược chiều</li>
+                            <li><code>i</code> tiến đến khi <code>arr[i] ≥ pivot</code></li>
+                            <li><code>j</code> lùi đến khi <code>arr[j] ≤ pivot</code></li>
+                            <li>Nếu <code>i < j</code> → swap cặp sai vị trí</li>
+                            <li>Dừng khi <code>i ≥ j</code>, trả về <code>j</code> làm ranh giới</li>
+                        </ul>
+                        <div class="code-mini">
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <!-- Slide 11: Lomuto -->
-            <section>
-                <h3>Chiến lược Lomuto</h3>
-                <ul>
-                    <li>Chọn <strong>phần tử cuối cùng</strong> của mảng/mảng con làm Pivot.</li>
-                    <li><strong>Ưu điểm:</strong> Mã nguồn cực kỳ đơn giản và dễ cài đặt, dễ hiểu cho vòng lặp duyệt.</li>
-                    <li><strong>Đối tượng:</strong> Rất phù hợp cho người mới bắt đầu học thuật toán.</li>
-                </ul>
-            </section>
-
-            <!-- Slide 12: Hoare -->
-            <section>
-                <h3>Chiến lược Hoare</h3>
-                <ul>
-                    <li>Chọn <strong>phần tử đầu tiên</strong> của mảng/mảng con làm Pivot.</li>
-                    <li><strong>Đặc điểm:</strong> Phức tạp hơn về mặt tư duy con trỏ.</li>
-                    <li><strong>Ưu điểm:</strong> Tối ưu hơn trong thực tế nhờ <em>giảm thiểu được số lần hoán đổi (swap)</em> so với Lomuto.</li>
-                </ul>
-            </section>
-
-            <!-- Slide 13: Topic 3 -->
-            <section>
-                <h2>3. Hàm Phân hoạch (Partition)</h2>
-                <p>Cơ chế "trái tim" của thuật toán thay đổi ra sao?</p>
-            </section>
-
-            <!-- Slide 14: Partition Lomuto Detail -->
-            <section>
-                <h3>Cơ chế Phân hoạch Lomuto</h3>
-                <ul>
-                    <li class="fragment">Dùng một biến <code>i</code> đánh dấu ranh giới các phần tử nhỏ hơn Pivot.</li>
-                    <li class="fragment">Duyệt qua đoạn <code>[l, r-1]</code> bằng một vòng lặp.</li>
-                    <li class="fragment">Mỗi khi gặp phần tử <strong>&lt;= Pivot</strong>, dồn phần tử đó về nửa bên trái và tăng <code>i</code>.</li>
-                    <li class="fragment">Cuối cùng, đặt Pivot vào đúng vị trí ranh giới <code>i</code>.</li>
-                </ul>
-            </section>
-
-            <!-- Slide 15: Partition Hoare Detail -->
-            <section>
-                <h3>Cơ chế Phân hoạch Hoare</h3>
-                <ul>
-                    <li class="fragment">Sử dụng hai con trỏ <code>i</code> (chạy từ trái sang) và <code>j</code> (chạy từ phải sang).</li>
-                    <li class="fragment">Dừng lại khi phát hiện cặp phần tử nằm <strong>sai vị trí</strong> (phần tử lớn bên trái, phần tử nhỏ bên phải Pivot).</li>
-                    <li class="fragment">Tiến hành <strong>hoán đổi (swap)</strong> chúng cho nhau.</li>
-                    <li class="fragment">Lặp lại liên tục cho đến khi hai con trỏ vượt qua nhau.</li>
-                </ul>
-            </section>
-
-            <!-- Slide 16: Topic 4 + IMAGE -->
-            <section>
-                <h2>4. Độ phức tạp (Complexity)</h2>
-                <img src="assets/time_complexity_graph.png" class="slide-img" alt="Minh hoạ Độ phức tạp thuật toán" style="max-height: 350px;" />
-            </section>
-
-            <!-- Slide 17: Time Complexity 1 -->
-            <section>
-                <h3>Thời gian (Time Complexity)</h3>
-                <h4>Trường hợp tốt nhất & Trung bình: <span class="highlight-blue">O(n log n)</span></h4>
-                <p>Đạt được khi Pivot chia mảng thành hai nửa <em>tương đối bằng nhau</em> ở mỗi tầng của cây đệ quy.</p>
-            </section>
-
-            <!-- Slide 18: Time Complexity 2 -->
-            <section>
-                <h3>Thời gian (Time Complexity)</h3>
-                <h4>Trường hợp xấu nhất: <span style="color: #dc2626;">O(n²)</span></h4>
-                <p>Xảy ra khi mảng đầu vào đã được sắp xếp sẵn (hoặc ngược lại) và thuật toán rơi vào tình huống phân hoạch bị lệch hoàn toàn (một bên 0 phần tử, bên kia <code>n-1</code> phần tử).</p>
-            </section>
-
-            <!-- Slide 19: Space Complexity -->
-            <section>
-                <h3>Không gian (Space Complexity)</h3>
-                <h4>Trường hợp trung bình: <span class="highlight-blue">O(log n)</span></h4>
-                <p style="font-size: 0.8em; color: #4b5563;">Do thuật toán thao tác trực tiếp trên mảng gốc <em>(in-place)</em> và không cần mảng phụ. Bộ nhớ thiết yếu duy nhất là <strong>Ngăn xếp gọi hàm (Call Stack)</strong> để lưu vết đệ quy.</p>
+            <!-- 🔹 SLIDE 11: 4️⃣ Độ phức tạp (Complexity) -->
+            <section style="overflow-y: auto; height: 100vh; padding: 40px;">
+                <h2>4️⃣ Độ phức tạp (Complexity)</h2>
+                <div class="complexity-layout">
+                    <div class="complexity-graph">
+                        <img src="assets/time_complexity_graph.png" alt="Đồ thị độ phức tạp Quick Sort" loading="lazy" />
+                    </div>
+                    <div class="complexity-table-wrap">
+                        <table class="complexity-table">
+                            <thead>
+                                <tr><th>Trường hợp</th><th>Time</th><th>Space</th><th>Ghi chú</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Tốt nhất / TB</strong></td>
+                                    <td class="text-blue">O(n log n)</td>
+                                    <td>O(log n)</td>
+                                    <td>Pivot chia đều. In-place, cache-friendly.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Xấu nhất</strong></td>
+                                    <td class="text-red">O(n²)</td>
+                                    <td>O(n)</td>
+                                    <td>Mảng đã sorted + Pivot cố định (đầu/cuối).</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </section>
 
             <!-- ================= GIAI ĐOẠN 2 ================= -->
@@ -511,92 +602,51 @@ private:
 
             <!-- Slide 27: Lomuto Partition Code -->
             <section>
-                <h3>2. Phân hoạch Lomuto</h3>
-                <pre><code class="language-cpp" data-trim data-noescape data-line-numbers="1-2|3-4|6-14|15-16">
+                <h3>🔵 Partition_Lomuto</h3>
+                <pre><code class="language-cpp" data-trim data-noescape style="font-size: 0.85em;">
 int Partition_Lomuto(int l, int r) {
-    int pivot = arr[r];
-    int i = l - 1;
-    cout &lt;&lt; "  -&gt; Pivot: " &lt;&lt; pivot &lt;&lt; endl;
-
+    int pivot = arr[r], i = l - 1;
     for (int j = l; j &lt; r; j++) {
         if (arr[j] &lt;= pivot) {
-            ++i;
-            swap(arr[i], arr[j]);
-            if (i != j) {
-                printArray(); // Step-by-step in ra
-            }
+            ++i; swap(arr[i], arr[j]);
         }
     }
-    ++i;
-    swap(arr[i], arr[r]); // Đưa pivot về giữa
+    swap(arr[++i], arr[r]); // Đặt pivot
     return i;
 }
                 </code></pre>
             </section>
 
-            <!-- Slide 28: Lomuto QuickSort Recursion -->
+            <!-- Slide 28: Hoare Partition Code -->
             <section>
-                <h3>Đệ quy Lomuto</h3>
-                <pre><code class="language-cpp" data-trim data-noescape>
-void QuickSort_Lomuto(int l, int r) {
-    if (l >= r) return; // Điều kiện dừng đệ quy
-    
-    cout &lt;&lt; "\n[Step] Sorting " &lt;&lt; l &lt;&lt; " to " &lt;&lt; r &lt;&lt; endl;
-    
-    // 1. Phân hoạch mảng
-    int p = Partition_Lomuto(l, r);
-    
-    // 2. Đệ quy 2 nửa
-    QuickSort_Lomuto(l, p - 1);
-    QuickSort_Lomuto(p + 1, r);
-}
-                </code></pre>
-            </section>
-
-            <!-- Slide 29: Hoare Code Summary -->
-            <section>
-                <h3>3. Phân hoạch Hoare</h3>
-                <pre><code class="language-cpp" data-trim data-noescape data-line-numbers="2-3|6-9|11-14">
+                <h3>🔴 partition_Hoare</h3>
+                <pre><code class="language-cpp" data-trim data-noescape style="font-size: 0.85em;">
 int partition_Hoare(int l, int r) {
-    int pivot = arr[l];
-    int i = l - 1, j = r + 1;
-
-    while (1) {
+    int pivot = arr[l], i = l - 1, j = r + 1;
+    while (true) {
         do { ++i; } while (arr[i] &lt; pivot);
         do { --j; } while (arr[j] &gt; pivot);
-        
-        if (i &lt; j) {
-            swap(arr[i], arr[j]);
-            printArray(); // In bước hoán đổi Hoare
-        } else {
-            return j; // Trả về ranh giới
-        }
+        if (i &lt; j) swap(arr[i], arr[j]);
+        else return j;
     }
 }
                 </code></pre>
             </section>
 
-            <!-- Slide 30: Init data and menu -->
+            <!-- Slide 29: QuickSort Recursion -->
             <section>
-                <h3>4. Đầu vào & Giao diện Menu</h3>
-                <pre><code class="language-cpp" data-trim data-noescape data-line-numbers="2-8|11-19">
-public:
-    void inputData() {
-        int n; cin &gt;&gt; n;
-        arr.resize(n); 
-        for (int i = 0; i &lt; n; i++) {
-            cin &gt;&gt; arr[i];
-        }
-    }
-
-    void startSorting() {
-        int choice;
-        cout &lt;&lt; "1. Lomuto\n2. Hoare\nChoice: ";
-        cin &gt;&gt; choice;
-
-        if (choice == 1) QuickSort_Lomuto(0, arr.size() - 1);
-        else QuickSort_Hoare(0, arr.size() - 1);
-    }
+                <h3>⚙️ Đệ quy & Main</h3>
+                <pre><code class="language-cpp" data-trim data-noescape style="font-size: 0.8em;">
+void QuickSort(int l, int r) {
+    if (l >= r) return;
+    int p = (mode==1) ? Partition_Lomuto(l,r) 
+                      : partition_Hoare(l,r);
+    QuickSort(l, p-1); QuickSort(p+1, r);
+}
+int main() {
+    solver.inputData(); solver.startSorting();
+    return 0;
+}
                 </code></pre>
             </section>
 
