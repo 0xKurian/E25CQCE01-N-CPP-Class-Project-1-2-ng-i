@@ -230,8 +230,8 @@
         .qs-code-panel {
             flex: 1;
             min-width: 280px;
-            background: #1e293b;
-            color: #e2e8f0;
+            background: #f6f8fa;
+            color: #24292e;
             padding: 16px;
             border-radius: 8px;
             font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
@@ -239,14 +239,15 @@
             line-height: 1.6;
             max-height: 450px;
             overflow-y: auto;
-            border: 1px solid #334155;
+            border: 1px solid #e1e4e8;
+            text-align: left;
         }
         .qs-code-panel .code-title {
             font-weight: 700;
             font-size: 0.95rem;
             margin-bottom: 12px;
-            color: #38bdf8;
-            border-bottom: 1px solid #334155;
+            color: #0366d6;
+            border-bottom: 1px solid #e1e4e8;
             padding-bottom: 8px;
         }
         .qs-code-line {
@@ -257,16 +258,22 @@
             white-space: pre;
         }
         .qs-code-line.highlight {
-            background: rgba(59, 130, 246, 0.2);
-            border-left-color: #3b82f6;
-            color: #60a5fa;
+            background: rgba(255, 223, 112, 0.4);
+            border-left-color: #f59e0b;
+            color: inherit;
         }
         .qs-code-line .code-num {
             display: inline-block;
             width: 30px;
             text-align: right;
-            color: #64748b;
+            color: #babbbd;
             margin-right: 8px;
+            user-select: none;
+        }
+        
+        pre {
+            max-width: fit-content;
+            margin: 0 auto;
         }
 
         /* Highlight states for grid cells */
@@ -286,7 +293,8 @@
             grid-template-columns: 1fr 1fr;
             gap: 24px;
             margin: 24px auto;
-            max-width: 900px;
+            width: 90%;
+            max-width: 1600px;
         }
         .partition-card {
             background: rgba(255, 255, 255, 0.8);
@@ -662,33 +670,33 @@ int main() {
                     </div>
                     <div class="qs-code-panel">
                         <div id="qs-code-content-lomuto">
-                            <div class="qs-code-line" data-line="1"><span class="code-num">1</span>int Partition_Lomuto(int l, int r) {</div>
-                            <div class="qs-code-line" data-line="2"><span class="code-num">2</span>    int pivot = arr[r];</div>
-                            <div class="qs-code-line" data-line="3"><span class="code-num">3</span>    int i = l - 1;</div>
-                            <div class="qs-code-line" data-line="4"><span class="code-num">4</span>    for (int j = l; j < r; j++) {</div>
-                            <div class="qs-code-line" data-line="5"><span class="code-num">5</span>        if (arr[j] <= pivot) {</div>
-                            <div class="qs-code-line" data-line="6"><span class="code-num">6</span>            ++i;</div>
-                            <div class="qs-code-line" data-line="7"><span class="code-num">7</span>            swap(arr[i], arr[j]);</div>
-                            <div class="qs-code-line" data-line="8"><span class="code-num">8</span>        }</div>
-                            <div class="qs-code-line" data-line="9"><span class="code-num">9</span>    }</div>
-                            <div class="qs-code-line" data-line="10"><span class="code-num">10</span>   ++i; swap(arr[i], arr[r]);</div>
-                            <div class="qs-code-line" data-line="11"><span class="code-num">11</span>   return i;</div>
-                            <div class="qs-code-line" data-line="12"><span class="code-num">12</span>}</div>
+                            <div class="qs-code-line" data-line="1"><span class="code-num">1</span><code class="language-cpp" style="display:inline; padding:0; background:none;">int Partition_Lomuto(int l, int r) {</code></div>
+                            <div class="qs-code-line" data-line="2"><span class="code-num">2</span><code class="language-cpp" style="display:inline; padding:0; background:none;">    int pivot = arr[r];</code></div>
+                            <div class="qs-code-line" data-line="3"><span class="code-num">3</span><code class="language-cpp" style="display:inline; padding:0; background:none;">    int i = l - 1;</code></div>
+                            <div class="qs-code-line" data-line="4"><span class="code-num">4</span><code class="language-cpp" style="display:inline; padding:0; background:none;">    for (int j = l; j < r; j++) {</code></div>
+                            <div class="qs-code-line" data-line="5"><span class="code-num">5</span><code class="language-cpp" style="display:inline; padding:0; background:none;">        if (arr[j] <= pivot) {</code></div>
+                            <div class="qs-code-line" data-line="6"><span class="code-num">6</span><code class="language-cpp" style="display:inline; padding:0; background:none;">            ++i;</code></div>
+                            <div class="qs-code-line" data-line="7"><span class="code-num">7</span><code class="language-cpp" style="display:inline; padding:0; background:none;">            swap(arr[i], arr[j]);</code></div>
+                            <div class="qs-code-line" data-line="8"><span class="code-num">8</span><code class="language-cpp" style="display:inline; padding:0; background:none;">        }</code></div>
+                            <div class="qs-code-line" data-line="9"><span class="code-num">9</span><code class="language-cpp" style="display:inline; padding:0; background:none;">    }</code></div>
+                            <div class="qs-code-line" data-line="10"><span class="code-num">10</span><code class="language-cpp" style="display:inline; padding:0; background:none;">   ++i; swap(arr[i], arr[r]);</code></div>
+                            <div class="qs-code-line" data-line="11"><span class="code-num">11</span><code class="language-cpp" style="display:inline; padding:0; background:none;">   return i;</code></div>
+                            <div class="qs-code-line" data-line="12"><span class="code-num">12</span><code class="language-cpp" style="display:inline; padding:0; background:none;">}</code></div>
                         </div>
                         <div id="qs-code-content-hoare" style="display:none;">
-                            <div class="qs-code-line" data-line="1"><span class="code-num">1</span>int partition_Hoare(int l, int r) {</div>
-                            <div class="qs-code-line" data-line="2"><span class="code-num">2</span>    int pivot = arr[l];</div>
-                            <div class="qs-code-line" data-line="3"><span class="code-num">3</span>    int i = l - 1, j = r + 1;</div>
-                            <div class="qs-code-line" data-line="4"><span class="code-num">4</span>    while (true) {</div>
-                            <div class="qs-code-line" data-line="5"><span class="code-num">5</span>        do { ++i; } while (arr[i] < pivot);</div>
-                            <div class="qs-code-line" data-line="6"><span class="code-num">6</span>        do { --j; } while (arr[j] > pivot);</div>
-                            <div class="qs-code-line" data-line="7"><span class="code-num">7</span>        if (i < j) {</div>
-                            <div class="qs-code-line" data-line="8"><span class="code-num">8</span>            swap(arr[i], arr[j]);</div>
-                            <div class="qs-code-line" data-line="9"><span class="code-num">9</span>        } else {</div>
-                            <div class="qs-code-line" data-line="10"><span class="code-num">10</span>           return j;</div>
-                            <div class="qs-code-line" data-line="11"><span class="code-num">11</span>       }</div>
-                            <div class="qs-code-line" data-line="12"><span class="code-num">12</span>   }</div>
-                            <div class="qs-code-line" data-line="13"><span class="code-num">13</span>}</div>
+                            <div class="qs-code-line" data-line="1"><span class="code-num">1</span><code class="language-cpp" style="display:inline; padding:0; background:none;">int partition_Hoare(int l, int r) {</code></div>
+                            <div class="qs-code-line" data-line="2"><span class="code-num">2</span><code class="language-cpp" style="display:inline; padding:0; background:none;">    int pivot = arr[l];</code></div>
+                            <div class="qs-code-line" data-line="3"><span class="code-num">3</span><code class="language-cpp" style="display:inline; padding:0; background:none;">    int i = l - 1, j = r + 1;</code></div>
+                            <div class="qs-code-line" data-line="4"><span class="code-num">4</span><code class="language-cpp" style="display:inline; padding:0; background:none;">    while (true) {</code></div>
+                            <div class="qs-code-line" data-line="5"><span class="code-num">5</span><code class="language-cpp" style="display:inline; padding:0; background:none;">        do { ++i; } while (arr[i] < pivot);</code></div>
+                            <div class="qs-code-line" data-line="6"><span class="code-num">6</span><code class="language-cpp" style="display:inline; padding:0; background:none;">        do { --j; } while (arr[j] > pivot);</code></div>
+                            <div class="qs-code-line" data-line="7"><span class="code-num">7</span><code class="language-cpp" style="display:inline; padding:0; background:none;">        if (i < j) {</code></div>
+                            <div class="qs-code-line" data-line="8"><span class="code-num">8</span><code class="language-cpp" style="display:inline; padding:0; background:none;">            swap(arr[i], arr[j]);</code></div>
+                            <div class="qs-code-line" data-line="9"><span class="code-num">9</span><code class="language-cpp" style="display:inline; padding:0; background:none;">        } else {</code></div>
+                            <div class="qs-code-line" data-line="10"><span class="code-num">10</span><code class="language-cpp" style="display:inline; padding:0; background:none;">           return j;</code></div>
+                            <div class="qs-code-line" data-line="11"><span class="code-num">11</span><code class="language-cpp" style="display:inline; padding:0; background:none;">       }</code></div>
+                            <div class="qs-code-line" data-line="12"><span class="code-num">12</span><code class="language-cpp" style="display:inline; padding:0; background:none;">   }</code></div>
+                            <div class="qs-code-line" data-line="13"><span class="code-num">13</span><code class="language-cpp" style="display:inline; padding:0; background:none;">}</code></div>
                         </div>
                     </div>
                     <div class="qs-controls">
@@ -745,12 +753,20 @@ int main() {
     <!-- Reveal.js script tags -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
     <script>
         // Init Reveal.js
         Reveal.initialize({
             hash: true,
             slideNumber: 'c/t', // show current slide / total
             transition: 'slide', // none/fade/slide/convex/concave/zoom
+            
+            // Responsive settings for native browser zoom
+            width: "80%",
+            height: "90%",
+            margin: 0,
+            minScale: 1,
+            maxScale: 1,
             
             // Learn about plugins: https://revealjs.com/plugins/
             plugins: [ RevealHighlight ]
@@ -763,6 +779,9 @@ int main() {
             function initQS(){
                 if(initialized) return;
                 initialized=true;
+                if(typeof hljs !== 'undefined') {
+                    document.querySelectorAll('.qs-code-line code').forEach(el => hljs.highlightElement(el));
+                }
                 const barsContainer = document.getElementById('qs-bars');
                 const statusEl = document.getElementById('qs-status');
                 const playBtn = document.getElementById('qs-play');
