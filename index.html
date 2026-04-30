@@ -34,9 +34,17 @@
         .reveal {
             font-family: 'Inter', sans-serif;
             color: #1f2937; /* Dark gray text */
+            font-size: 34px; /* Fix for fluid layout font size */
+        }
+        .reveal p, .reveal li, .reveal h1, .reveal h2, .reveal h3 {
+            text-wrap: balance;
         }
         .reveal code, .reveal pre {
             font-family: 'Consolas', 'Menlo', 'Monaco', 'Courier New', monospace !important;
+        }
+        .reveal pre code {
+            font-size: 1.25em !important;
+            line-height: 1.5 !important;
         }
         .gradient-text {
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
@@ -375,7 +383,61 @@
             margin-top: 16px;
         }
         .partition-note strong { color: #92400e; }
+        
+        /* === 4️⃣ Complexity Layout === */
+        .complexity-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: center;
+            margin-top: 20px;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .complexity-graph {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+        .complexity-graph img {
+            width: 100%;
+            max-height: 350px;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+        .complexity-table-wrap {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+        .complexity-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .complexity-table th,
+        .complexity-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            text-align: left;
+            color: #374151;
+        }
+        .complexity-table th {
+            color: var(--accent-blue);
+            font-weight: 600;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.25);
+        }
+        .text-blue { color: var(--accent-blue); font-weight: 600; }
+        .text-red { color: #ef4444; font-weight: 600; }
+
         @media (max-width: 768px) {
+            .complexity-layout { grid-template-columns: 1fr; }
             .partition-symmetric { grid-template-columns: 1fr; }
             .partition-card h3 { font-size: 1.1rem; }
             .feature-list { font-size: 0.9em; }
@@ -978,17 +1040,56 @@ int main() {
                             const [i,j] = action.indices;
                             const bi = document.querySelector(`#qs-array-container .qs-bar[data-index="${i}"]`);
                             const bj = document.querySelector(`#qs-array-container .qs-bar[data-index="${j}"]`);
-                            if(bi) bi.classList.add('swap');
-                            if(bj) bj.classList.add('swap');
+                            
                             status(`Hoán đổi chỉ số ${i} và ${j}`);
                             highlightCodeLine(algo === 'lomuto' ? 7 : 8, algo);
-                            const tmp = displayArr[i]; displayArr[i]=displayArr[j]; displayArr[j]=tmp;
-                            updateBars();
-                            pointers.i = i; pointers.j = j;
-                            updatePointerLabels();
-                            await sleep(Math.max(80, speed));
-                            if(bi) bi.classList.remove('swap');
-                            if(bj) bj.classList.remove('swap');
+                            
+                            if(bi && bj) {
+                                bi.classList.add('swap');
+                                bj.classList.add('swap');
+                                
+                                const rectI = bi.getBoundingClientRect();
+                                const rectJ = bj.getBoundingClientRect();
+                                const dist = rectJ.left - rectI.left;
+                                
+                                const halfSpeed = Math.max(100, speed / 2);
+                                
+                                // Bước 1: Nhảy lên/xuống và xoay nửa vòng
+                                bi.style.transition = `transform ${halfSpeed}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+                                bj.style.transition = `transform ${halfSpeed}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+                                
+                                bi.style.transform = `translate(${dist/2}px, -40px) scale(1.15) rotate(15deg)`;
+                                bj.style.transform = `translate(${-dist/2}px, 40px) scale(1.15) rotate(-15deg)`;
+                                
+                                await sleep(halfSpeed);
+                                
+                                // Bước 2: Hạ cánh xuống vị trí đích
+                                bi.style.transition = `transform ${halfSpeed}ms cubic-bezier(0.55, 0.085, 0.68, 0.53)`;
+                                bj.style.transition = `transform ${halfSpeed}ms cubic-bezier(0.55, 0.085, 0.68, 0.53)`;
+                                
+                                bi.style.transform = `translate(${dist}px, 0px) scale(1) rotate(0deg)`;
+                                bj.style.transform = `translate(${-dist}px, 0px) scale(1) rotate(0deg)`;
+                                
+                                await sleep(halfSpeed);
+                                
+                                const tmp = displayArr[i]; displayArr[i]=displayArr[j]; displayArr[j]=tmp;
+                                updateBars();
+                                pointers.i = i; pointers.j = j;
+                                updatePointerLabels();
+                                
+                                bi.style.transition = '';
+                                bj.style.transition = '';
+                                bi.style.transform = '';
+                                bj.style.transform = '';
+                                bi.classList.remove('swap');
+                                bj.classList.remove('swap');
+                            } else {
+                                const tmp = displayArr[i]; displayArr[i]=displayArr[j]; displayArr[j]=tmp;
+                                updateBars();
+                                pointers.i = i; pointers.j = j;
+                                updatePointerLabels();
+                                await sleep(Math.max(80, speed));
+                            }
                             break;
                         }
                         case 'pivot': {
