@@ -441,6 +441,48 @@
             .partition-symmetric { grid-template-columns: 1fr; }
             .partition-card h3 { font-size: 1.1rem; }
             .feature-list { font-size: 0.9em; }
+            
+            /* QuickSort Visualizer Responsive adjustments */
+            .qs-wrapper {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px 4px;
+            }
+            .qs-left, .qs-code-panel, .qs-controls {
+                min-width: 100%;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            .qs-bar {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+            .qs-bar .qs-val {
+                font-size: 0.9rem;
+            }
+            .qs-bar .qs-pointer {
+                top: -24px;
+                font-size: 0.85rem;
+            }
+            #qs-array-container {
+                min-height: 60px;
+            }
+            .qs-controls .row {
+                flex-wrap: wrap;
+            }
+            .qs-controls button {
+                flex: 1;
+                min-width: 45%;
+                font-size: 0.85rem;
+                padding: 6px 8px;
+            }
+            .reveal {
+                font-size: 24px;
+            }
+            .reveal section img.slide-img {
+                max-height: 250px;
+            }
         }
     </style>
 </head>
