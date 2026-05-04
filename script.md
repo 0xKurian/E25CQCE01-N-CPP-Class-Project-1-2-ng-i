@@ -30,9 +30,9 @@ Lúc này, thầy chưa có một xấp bài hoàn chỉnh, nhưng thầy đã p
 * **🔴 Hoare Partition:** Cách này 'quái kiệt' hơn. Dùng hai con trỏ quét từ hai đầu xấp bài ngược vào giữa. Thấy cặp bài nào nằm sai vị trí (bài điểm cao nằm bên trái, điểm thấp nằm bên phải) thì lập tức tráo đổi chúng cho nhau. Cách này phức tạp về logic hơn nhưng lại tối ưu số lần swap, giúp tốc độ thực tế nhanh hơn Lomuto khoảng 20%.
 
 **[Chuyển Slide 10: Độ phức tạp]**
-Nhờ chia để trị, hiệu năng của Quick Sort rất đáng nể. Thời gian chạy trung bình là $O(n \log n)$. Tuy nó có thể rơi vào trường hợp xấu nhất là $O(n^2)$ (nếu mảng đã sắp xếp sẵn mà mốc chọn không khéo), nhưng thực tế nó vẫn là thuật toán được ưa chuộng nhất vì khả năng tối ưu bộ nhớ đệm.
+Tại sao chúng ta lại gọi nó là 'Quick'? Bởi vì tốc độ trung bình của nó đạt ngưỡng $O(n \log n)$. Tuy Quick Sort có thể rơi vào trường hợp xấu nhất là $O(n^2)$ nếu chọn 'bài mốc' không khéo, nhưng trong thực tế, đây vẫn là thuật toán được tin dùng bậc nhất vì nó hoạt động cực kỳ tối ưu với bộ nhớ đệm (cache-friendly).
 
-Để thấy rõ sức mạnh này trên từng dòng code C++, mời mọi người theo dõi phần trình bày của bạn **Hưng**."
+Để thấy rõ cách nhóm mình đưa logic này vào một hệ thống C++ hoàn chỉnh, mình xin nhường lời cho bạn **Hưng**."
 
 ---
 
