@@ -5,13 +5,16 @@
 **Đức Duy:**
 "Chào thầy cô và các bạn. Chào mừng mọi người đến với bài thuyết trình của nhóm mình. Hôm nay, tụi mình sẽ trình bày về một trong những thuật toán sắp xếp kinh điển nhất: **Quick Sort**. Nội dung sẽ đi qua 2 giai đoạn: **Comprehension** (Hiểu lý thuyết) và **Implementation** (Thực hành C++ & Demo).
 
-Để bắt đầu, mình sẽ giúp mọi người hiểu bản chất của Quick Sort chỉ trong vòng 30 giây qua một ví dụ thực tế!
+Để bắt đầu, mình sẽ giải thích bản chất của Quick Sort thông qua một hình ảnh mà chắc hẳn lớp mình ai cũng quen thuộc: **Thầy giáo đang sắp xếp một xấp bài kiểm tra C++ vừa chấm xong theo điểm số từ thấp đến cao**.
 
-**[Ví dụ ELI5]** Các bạn hãy tưởng tượng chúng ta đang **xếp hàng tập thể dục theo chiều cao**. Thay vì đi đo và so sánh từng người rất mất thời gian, mình sẽ làm thế này:
+**[Ví dụ ELI5]** Hãy tưởng tượng thầy đang cầm trên tay 50 tờ bài làm lộn xộn. Thay vì thầy phải ngồi lật từng tờ so sánh từ đầu đến cuối rất tốn sức, thầy sẽ áp dụng tư duy của một lập trình viên:
 
-Mình nắm tay kéo ngẫu nhiên một bạn đứng ra làm mốc (gọi là **Pivot**). Sau đó hô: *'Ai thấp hơn hoặc bằng mốc thì đứng hết sang trái, ai cao hơn thì qua phải!'*. 
+Đầu tiên, thầy rút đại một tờ bài bất kỳ ra làm 'mốc' (**Pivot**). Giả sử tờ đó được 7 điểm.
+Sau đó, thầy chia xấp bài thành 2 chồng:
+* Chồng bên trái là những bài **từ 7 điểm trở xuống**.
+* Chồng bên phải là những bài **trên 7 điểm**.
 
-Lúc này, hàng tách làm 2 nhóm. Ở mỗi nhóm trái và phải, mình lại tiếp tục kéo một bạn làm mốc mới và hô y hệt như vậy. Cứ chia nhỏ ra và xếp, loáng một cái là cả lớp đã đứng đúng thứ tự từ thấp đến cao. Đó chính xác là chiến lược **Divide & Conquer (Chia để trị)**: Chọn Pivot, Phân hoạch (Partition), và Đệ quy."
+Lúc này, thầy chưa có một xấp bài hoàn chỉnh, nhưng thầy đã phân loại được nhóm điểm cao và điểm thấp. Tiếp theo, thầy chỉ cần nhờ hai bạn trợ giảng làm y hệt như vậy với hai chồng bài nhỏ đó. Cứ chia nhỏ, chia nhỏ mãi cho đến khi mỗi chồng chỉ còn đúng 1 tờ bài duy nhất. Khi gộp lại theo đúng thứ tự trái - phải, xấp bài đã được sắp xếp xong. Đó chính là triết lý **Divide & Conquer (Chia để trị)** của Quick Sort."
 
 ---
 
