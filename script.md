@@ -7,7 +7,7 @@
 
 Để bắt đầu, mình sẽ giải thích bản chất của Quick Sort thông qua một hình ảnh mà chắc hẳn lớp mình ai cũng quen thuộc: **Thầy giáo đang sắp xếp một xấp bài kiểm tra C++ vừa chấm xong theo điểm số từ thấp đến cao**.
 
-**[Ví dụ ELI5]** Hãy tưởng tượng thầy đang cầm trên tay 50 tờ bài làm lộn xộn. Thay vì thầy phải ngồi lật từng tờ so sánh từ đầu đến cuối rất tốn sức, thầy sẽ áp dụng tư duy của một lập trình viên:
+**[Ví dụ ELI5]** Hãy tưởng tượng thầy đang cầm trên tay 40 tờ bài làm lộn xộn. Thay vì thầy phải ngồi lật từng tờ so sánh từ đầu đến cuối rất tốn sức, thầy sẽ áp dụng tư duy của một lập trình viên:
 
 Đầu tiên, thầy rút đại một tờ bài bất kỳ ra làm 'mốc' (**Pivot**). Giả sử tờ đó được 7 điểm.
 Sau đó, thầy chia xấp bài thành 2 chồng:
