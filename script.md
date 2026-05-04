@@ -24,10 +24,10 @@ Lúc này, thầy chưa có một xấp bài hoàn chỉnh, nhưng thầy đã p
 
 **Đức Duy:**
 **[Chuyển Slide 9: Cơ chế Phân hoạch]**
-"Việc hô hào '*thấp sang trái, cao sang phải*' trong lập trình gọi là Phân hoạch (Partition). Nhóm mình đã nghiên cứu 2 kỹ thuật phổ biến nhất:
+"Hành động chia bài thành hai chồng 'thấp' và 'cao' đó, trong thuật toán gọi là Phân hoạch (Partition). Nhóm mình đã nghiên cứu 2 cách cài đặt phổ biến nhất:
 
-* **🔵 Lomuto Partition (Bên trái):** Chọn phần tử cuối làm mốc. Dùng 1 con trỏ chạy từ đầu đến cuối. Cách này cực kỳ dễ code, dễ hiểu, nhưng lại bắt máy tính phải hoán đổi (swap) vị trí khá nhiều lần dù không cần thiết.
-* **🔴 Hoare Partition (Bên phải):** Chọn phần tử đầu làm mốc. Dùng 2 con trỏ chạy ngược chiều nhau từ hai đầu mảng lại. Cách này code lắt léo hơn, nhưng tối ưu số lần swap và chạy thực tế nhanh hơn Lomuto khoảng 20%.
+* **🔵 Lomuto Partition:** Cách này giống như việc duyệt tuần tự từ đầu đến cuối xấp bài, thấy tờ nào điểm thấp thì nhặt ra đưa về một bên. Dễ hiểu, dễ code nhưng máy tính phải thực hiện hoán đổi (swap) vị trí rất nhiều lần.
+* **🔴 Hoare Partition:** Cách này 'quái kiệt' hơn. Dùng hai con trỏ quét từ hai đầu xấp bài ngược vào giữa. Thấy cặp bài nào nằm sai vị trí (bài điểm cao nằm bên trái, điểm thấp nằm bên phải) thì lập tức tráo đổi chúng cho nhau. Cách này phức tạp về logic hơn nhưng lại tối ưu số lần swap, giúp tốc độ thực tế nhanh hơn Lomuto khoảng 20%.
 
 **[Chuyển Slide 10: Độ phức tạp]**
 Nhờ chia để trị, hiệu năng của Quick Sort rất đáng nể. Thời gian chạy trung bình là $O(n \log n)$. Tuy nó có thể rơi vào trường hợp xấu nhất là $O(n^2)$ (nếu mảng đã sắp xếp sẵn mà mốc chọn không khéo), nhưng thực tế nó vẫn là thuật toán được ưa chuộng nhất vì khả năng tối ưu bộ nhớ đệm.
